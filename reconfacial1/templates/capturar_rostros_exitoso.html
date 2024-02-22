@@ -1,0 +1,52 @@
+<!-- capturar_rostros_exitoso.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Captura de Rostros</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tu estilo personalizado -->
+  <style>
+    /* Agrega tu estilo personalizado aquí */
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+
+    <h1>CAPTURAR ROSTROS EXITOSO</h1>
+    <!-- Button to Capture Faces -->
+ <a href="{% url 'reconfacial1:capturar_rostros' %}">
+    <button>Capturar Rostros</button>
+</a>
+
+<!-- Button to Train Recognition Model -->
+<a href="{% url 'reconfacial1:entrenandoRF' %}">
+    <button>Entrenar Modelo</button>
+</a>
+
+<!-- Button to Recognize Faces -->
+<a href= "{% url 'reconfacial1:reconocer' %}">
+    <button>Reconocer Rostros</button>
+
+      
+      
+      <!-- Mostrar las imagenes capturadas manualmente -->
+      <img id="fotoCapturada" class="img-fluid mb-3" style="display: none;">
+      
+        
+   
+  </div>
+
+  <!-- jQuery y Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Tu script personalizado -->
+  <script>
+    // Agrega tu script personalizado aquí
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+
+<!-- capturaRostros.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Captura de Rostros</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tu estilo personalizado -->
+  <style>
+    /* Agrega tu estilo personalizado aquí */
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+
+    <h1>TOMAR DATOS Y FOTOS DE LA PERSONA</h1>
+    <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% if form %}
+        {{ form.as_p }}
+      {% else %}
+        <p>Error: Formulario no disponible.</p>
+      {% endif %}
+
+      <!-- Botón para capturar imagen desde la cámara manualmente -->
+      <button type="submit" class="btn btn-primary mb-3">Capturar desde la cámara</button>
+      
+      <!-- Mostrar las imagenes capturadas manualmente -->
+      <img id="fotoCapturada" class="img-fluid mb-3" style="display: none;">
+      
+      <!-- Campo oculto para la imagen capturada desde la cámara -->
+      <input type="hidden" name="foto_path" id="foto_path">
+
+      <!-- Botón de guardar -->
+      <input type="submit" value="GUARDAR" class="btn btn-success">
+    </form>
+  </div>
+
+  <!-- jQuery y Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Tu script personalizado -->
+  <script>
+    // Agrega tu script personalizado aquí
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./biometrikAssProject"
+    ],
+    "git.ignoreLimitWarning": true
+}
