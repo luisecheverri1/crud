@@ -15,11 +15,6 @@ data_path = 'C:/Users/PC/Desktop/facialPython/data'
 def home(request):
     return render(request, 'home.html')
 
-   
-# views.py
-
-
-
 def capturar_rostros(request):
     data_path = 'C:/Users/PC/Desktop/biometrikAss/biometrikAssProject/data'  # Ruta donde se guardarán las fotos
     if request.method == 'POST':
@@ -30,10 +25,10 @@ def capturar_rostros(request):
             apellido = form.cleaned_data['APELLIDO']
             cedula = form.cleaned_data['CEDULA']
             # Llamar a capturar_rostros3 con los datos del formulario
-            capturar_rostros3(data_path, cedula,  nombre, apellido)
+            photo_path, cedula, nombre, apellido = capturar_rostros3(data_path, cedula,  nombre, apellido) 
             # Llamar al entrenamiento después de la captura
-            person_folder_path = os.path.join(data_path, cedula, nombre, apellido)
-            entrenando(person_folder_path)
+           
+            entrenando(photo_path, cedula, nombre, apellido)
             # Redirigir a una página de éxito
             return redirect('reconfacial1:capturar_rostros_exitoso')
     else:
@@ -44,9 +39,10 @@ def capturar_rostros(request):
 def capturar_rostros_exitoso(request):
     return render(request, 'capturar_rostros_exitoso.html')
   
-def entrenandoRF(request):
-    entrenando()
-    return redirect('reconfacial1:entrenamiento_exitoso')
+#def entrenandoRF(photo_path, cedula, nombre, apellido):
+ #    entrenando(photo_path, cedula, nombre, apellido)
+ #  return redirect('reconfacial1:entrenamiento_exitoso')
+
 
 def reconocer(request):
     return render(request,'reconoceRostros.html')

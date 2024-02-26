@@ -27,7 +27,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('capturar_rostros/', views.capturar_rostros, name='capturar_rostros'),
     path('capturar_rostros_exitoso/', views.capturar_rostros_exitoso, name='capturar_rostros_exitoso'),
-    path('entrenandoRF/', views.entrenandoRF, name='entrenandoRF'),
+    #path('entrenandoRF/', views.entrenandoRF, name='entrenandoRF'),
     path('reconocer/', views.reconocer, name='reconocer'),
     path('llamar_borrar_datos_xml', views.llamar_borrar_datos_xml, name='llamar_borrar_datos_xml')
 ]

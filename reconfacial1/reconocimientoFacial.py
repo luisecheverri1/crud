@@ -3,7 +3,7 @@ import os
 
 
 def reconocer():
-	dataPath = 'C:/Users/PC/Desktop/facialPython/data' #Cambia a la ruta donde hayas almacenado Data
+	dataPath = "C:/Users/PC/Desktop/biometrikAss/biometrikAssProject/data" #Cambia a la ruta donde hayas almacenado Data
 	imagePaths = os.listdir(dataPath)
 	print('imagePaths=',imagePaths)
 

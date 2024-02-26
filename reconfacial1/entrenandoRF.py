@@ -1,14 +1,9 @@
-import cv2
 import os
-import numpy as np
-
-
-
 import cv2
-import os
 import numpy as np
+from reconfacial1.capturandoRostros import capturar_rostros3
 
-def entrenando(person_folder_path):
+def entrenando(photo_path, cedula, nombre, apellido):
     dataPath = "C:/Users/PC/Desktop/biometrikAss/biometrikAssProject/data" # Cambia a la ruta donde hayas almacenado Data
     peopleList = os.listdir(dataPath)
     print('Lista de personas: ', peopleList)
@@ -26,8 +21,8 @@ def entrenando(person_folder_path):
         personPath = dataPath + '/' + nameDir
         print('Leyendo las imágenes')
 
-        for fileName in os.listdir(person_folder_path):
-            print('Rostros: ', nameDir + '/' + fileName)
+        for fileName in os.listdir(photo_path):
+            print('Rostros: ', photo_path)
             labels.append(label)
             facesData.append(cv2.imread(personPath+'/'+fileName, 0))
             # image = cv2.imread(personPath+'/'+fileName,0)
