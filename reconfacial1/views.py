@@ -16,7 +16,7 @@ def home(request):
     return render(request, 'home.html')
 
 def capturar_rostros(request):
-    data_path = 'C:/Users/PC/Desktop/biometrikAss/biometrikAssProject/data'  # Ruta donde se guardarán las fotos
+    data_path = 'C:/xampp/htdocs/crud/biometrikAssProject'  # Ruta donde se guardarán las fotos
     if request.method == 'POST':
         form = PersonaForm(request.POST)
         if form.is_valid():
