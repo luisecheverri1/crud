@@ -4,7 +4,7 @@ import numpy as np
 from reconfacial1.capturandoRostros import capturar_rostros3
 
 def entrenando(photo_path, cedula, nombre, apellido):
-    dataPath = 'C:/xampp/htdocs/crud/biometrikAssProject' # Cambia a la ruta donde hayas almacenado Data
+    dataPath = 'C:/xampp/htdocs/crud/biometrikAssProject/data' # Cambia a la ruta donde hayas almacenado Data
     peopleList = os.listdir(dataPath)
     print('Lista de personas: ', peopleList)
 
@@ -34,9 +34,8 @@ def entrenando(photo_path, cedula, nombre, apellido):
     if len(labels) < 2:
         print("Error: Se necesitan al menos dos personas con muestras de entrenamiento.")
         return
-
-    # Métodos para entrenar el reconocedor
-    face_recognizer = cv2.face.FisherFaceRecognizer_create()
+    # Método para entrenar el reconocedor
+    face_recognizer = cv2.face.createFisherFaceRecognizer()
 
     # Entrenando el reconocedor de rostros
     print("Entrenando...")

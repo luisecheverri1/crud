@@ -9,14 +9,14 @@ from reconfacial1.capturandoRostros import  capturar_rostros3
 from reconfacial1.forms import PersonaForm
 from reconfacial1.entrenandoRF import entrenando
 
-data_path = 'C:/Users/PC/Desktop/facialPython/data' 
+data_path = 'C:/xampp/htdocs/crud/biometrikAssProject/data' 
 # Create your views here.
 
 def home(request):
     return render(request, 'home.html')
 
 def capturar_rostros(request):
-    data_path = 'C:/xampp/htdocs/crud/biometrikAssProject'  # Ruta donde se guardarán las fotos
+   
     if request.method == 'POST':
         form = PersonaForm(request.POST)
         if form.is_valid():
