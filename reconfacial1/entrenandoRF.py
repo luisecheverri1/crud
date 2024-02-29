@@ -35,7 +35,7 @@ def entrenando(photo_path, cedula, nombre, apellido):
         print("Error: Se necesitan al menos dos personas con muestras de entrenamiento.")
         return
     # Método para entrenar el reconocedor
-    face_recognizer = cv2.face.createFisherFaceRecognizer()
+    face_recognizer = cv2.face.FisherFaceRecognizer()
 
     # Entrenando el reconocedor de rostros
     print("Entrenando...")
