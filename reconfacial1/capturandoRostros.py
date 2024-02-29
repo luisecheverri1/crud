@@ -3,7 +3,10 @@ import os
 import time
 import cv2
 
-def capturar_rostros3(data_path, CEDULA, NOMBRE, APELLIDO,  count_limit=5):
+
+data_path = "C:/Users/PC/Desktop/biometrikAss/biometrikAssProject/data"
+
+def capturar_rostros3(id,CEDULA, NOMBRE, APELLIDO,  count_limit=5):
     person_folder_path = os.path.join(data_path, CEDULA, NOMBRE, APELLIDO, )
     os.makedirs(person_folder_path, exist_ok=True)  # Asegurar que la carpeta de la persona esté creada
     cap = cv2.VideoCapture(0)  # Inicializar la cámara
@@ -11,7 +14,7 @@ def capturar_rostros3(data_path, CEDULA, NOMBRE, APELLIDO,  count_limit=5):
     if not cap.isOpened():
         print("Error: No se puede abrir la cámara.Esperando...")
         time.sleep(2)
-        return capturar_rostros3(data_path, CEDULA, NOMBRE, APELLIDO)   
+        return capturar_rostros3(id, CEDULA, NOMBRE, APELLIDO)   
     else:
         print("Camara abierta correctamente !!!")
             

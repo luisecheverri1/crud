@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'biometrikAssProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'BIOMETRIKASS',
+        'NAME': 'biometrikass',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',

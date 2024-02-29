@@ -1,35 +1,56 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Mi Proyecto de Reconocimiento Facial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOMETRIKASS</title>
+    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tu estilo personalizado -->
+    <style>
+        body {
+            background-color: #f0f0f0; /* Color de fondo gris claro */
+            margin-bottom: 50px; /* Espacio inferior para el footer */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 88vh;
+        }
+
+        footer {
+            background-color: #333; /* Color de fondo negro */
+            color: #fff; /* Color del texto blanco */
+            padding: 20px 0; /* Relleno superior e inferior */
+            width: 100%
+        }
+
+    </style>
 </head>
 <body>
     <div class="container mt-5">   
-    <h1>BIOMETRIKASS</h1>
- <!-- Button to Capture Faces -->
- <a href="{% url 'reconfacial1:capturar_rostros' %}">
-    <button>Capturar Rostros</button>
-</a>
+        <h1>BIOMETRIKASS</h1>
+        <!-- Botón para capturar rostros -->
+        <a href="{% url 'reconfacial1:capturar_rostros' %}" class="btn btn-primary mb-3">Capturar Rostros</a>
+        <!-- Botón para borrar datos XML -->
+        <a href="{% url 'reconfacial1:llamar_borrar_datos_xml' %}" class="btn btn-primary mb-3">BORRAR DATOS XML</a>
+        <!-- Botón para reconocer rostros -->
+        <a href="{% url 'reconfacial1:reconocer' %}" class="btn btn-primary mb-3">Reconocer Rostros</a>
+    </div>
+    <img src="https://images.squarespace-cdn.com/content/v1/60b652484796a564a5707096/c3d60914-0627-4f39-9300-a5becec3fb57/reconocimiento-facial.jpg" alt="Reconocimiento facial" class="img-fluid">
+    <footer class="text-center">
+        <div class="container">
+            <p>&copy; 2024 BIOMETRIKASS. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 
-<!-- Button to Train Recognition Model -->
-<a href="{% url 'reconfacial1:llamar_borrar_datos_xml' %}">
-    <button>BORRAR DATOS XML</button>
-</a>
-
-<!-- Button to Recognize Faces -->
-<a href= "{% url 'reconfacial1:reconocer' %}">
-    <button>Reconocer Rostros</button>
-</a>
- <!-- jQuery y Bootstrap JS -->
- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
- </div>
- <!-- Tu script personalizado -->
- <script>
-   // Agrega tu script personalizado aquí
- </script>
+    <!-- jQuery y Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Tu script personalizado -->
+    <script>
+        // Agrega tu script personalizado aquí
+    </script>
 </body>
 </html>

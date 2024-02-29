@@ -1,7 +1,4 @@
 
-
-
-import os
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from reconfacial1.borrar_datos_xml import borrar_datos_xml
@@ -21,14 +18,16 @@ def capturar_rostros(request):
         form = PersonaForm(request.POST)
         if form.is_valid():
             # Obtener los datos del formulario
+            
+            cedula = form.cleaned_data['CEDULA']
             nombre = form.cleaned_data['NOMBRE']
             apellido = form.cleaned_data['APELLIDO']
-            cedula = form.cleaned_data['CEDULA']
+           
             # Llamar a capturar_rostros3 con los datos del formulario
-            photo_path, cedula, nombre, apellido = capturar_rostros3(data_path, cedula,  nombre, apellido) 
+            cedula, nombre, apellido = capturar_rostros3(cedula,nombre,apellido) 
             # Llamar al entrenamiento después de la captura
            
-            entrenando(photo_path, cedula, nombre, apellido)
+            entrenando( cedula, nombre, apellido)
             # Redirigir a una página de éxito
             return redirect('reconfacial1:capturar_rostros_exitoso')
     else:
