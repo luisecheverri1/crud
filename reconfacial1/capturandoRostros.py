@@ -4,9 +4,9 @@ import time
 import cv2
 
 
-data_path = "C:/Users/PC/Desktop/biometrikAss/biometrikAssProject/data"
+data_path = "C:/xampp/htdocs/crud/biometrikAssProject/data"
 
-def capturar_rostros3(id,CEDULA, NOMBRE, APELLIDO,  count_limit=5):
+def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=5):
     person_folder_path = os.path.join(data_path, CEDULA, NOMBRE, APELLIDO, )
     os.makedirs(person_folder_path, exist_ok=True)  # Asegurar que la carpeta de la persona esté creada
     cap = cv2.VideoCapture(0)  # Inicializar la cámara
@@ -42,7 +42,7 @@ def capturar_rostros3(id,CEDULA, NOMBRE, APELLIDO,  count_limit=5):
                 cv2.imwrite(photo_path, face_roi_resized)
                 print(f"Rostro capturado y guardado en: {photo_path}")
                 count += 1
-                return photo_path, CEDULA, NOMBRE, APELLIDO
+                return   NOMBRE, APELLIDO,CEDULA,
 
             if count >= count_limit:
                 break

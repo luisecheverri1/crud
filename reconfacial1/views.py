@@ -25,8 +25,8 @@ def capturar_rostros(request):
            
             # Llamar a capturar_rostros3 con los datos del formulario
             cedula, nombre, apellido = capturar_rostros3(cedula,nombre,apellido) 
+            
             # Llamar al entrenamiento después de la captura
-           
             entrenando( cedula, nombre, apellido)
             # Redirigir a una página de éxito
             return redirect('reconfacial1:capturar_rostros_exitoso')
