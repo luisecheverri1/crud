@@ -12,30 +12,18 @@
   <style>
     /* Agrega tu estilo personalizado aquí */
   </style>
+   
 </head>
 <body>
   <div class="container mt-5">
 
     <h1>CAPTURAR ROSTROS EXITOSO</h1>
-    <!-- Button to Capture Faces -->
- <a href="{% url 'reconfacial1:capturar_rostros' %}">
-    <button>Capturar Rostros</button>
-</a>
-
-<!-- Button to Train Recognition Model -->
-<a href="{% url 'reconfacial1:entrenandoRF' %}">
-    <button>Entrenar Modelo</button>
-</a>
-
-<!-- Button to Recognize Faces -->
-<a href= "{% url 'reconfacial1:reconocer' %}">
-    <button>Reconocer Rostros</button>
-
+ 
       
-      
-      <!-- Mostrar las imagenes capturadas manualmente -->
-      <img id="fotoCapturada" class="img-fluid mb-3" style="display: none;">
-      
+       <!-- Mostrar las imágenes capturadas manualmente -->
+       {% for file_name in file_names %}
+       <img src="{{ person_folder_path }}/{{ file_name }}" class="img-fluid mb-3">
+      {% endfor %}
         
    
   </div>

@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 from reconfacial1.capturandoRostros import capturar_rostros3
 
-def entrenando( cedula, nombre, apellido):
-    dataPath = 'C:/xampp/htdocs/crud/biometrikAssProject/data' # Cambia a la ruta donde hayas almacenado Data
+def entrenando( CEDULA, NOMBRE, APELLIDO):
+    dataPath = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data' # Cambia a la ruta donde hayas almacenado Data
     peopleList = os.listdir(dataPath)
     print('Lista de personas: ', peopleList)
 

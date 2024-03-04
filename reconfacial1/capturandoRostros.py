@@ -1,23 +1,28 @@
 
 import os
+import shutil
 import time
 import cv2
 
+data_path = "C:/xampp/htdocs/crud-1/biometrikAssProject/data"
 
-data_path = "C:/xampp/htdocs/crud/biometrikAssProject/data"
+def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=50):
+    person_folder_path = os.path.join(data_path, CEDULA, NOMBRE, APELLIDO)
 
-def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=5):
-    person_folder_path = os.path.join(data_path, CEDULA, NOMBRE, APELLIDO, )
-    os.makedirs(person_folder_path, exist_ok=True)  # Asegurar que la carpeta de la persona esté creada
-    cap = cv2.VideoCapture(0)  # Inicializar la cámara
+    if os.path.exists(person_folder_path):
+        print(f"La carpeta para la cédula {CEDULA} ya existe. Sobrescribiendo los datos...")
+        shutil.rmtree(person_folder_path)
+    os.makedirs(person_folder_path)
+
+    cap = cv2.VideoCapture(0)  
 
     if not cap.isOpened():
         print("Error: No se puede abrir la cámara.Esperando...")
         time.sleep(2)
-        return capturar_rostros3(id, CEDULA, NOMBRE, APELLIDO)   
+        return capturar_rostros3( CEDULA, NOMBRE, APELLIDO,count_limit)   
     else:
-        print("Camara abierta correctamente !!!")
-            
+        print("¡Cámara abierta correctamente!")
+
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     count = 0
     while count < count_limit:
@@ -33,25 +38,27 @@ def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=5):
             continue
 
         for (x, y, w, h) in faces:
+            # Dibujar un rectángulo verde alrededor del rostro detectado
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
             face_roi = frame[y:y+h, x:x+w]
             face_roi_resized = cv2.resize(face_roi, (150, 150), interpolation=cv2.INTER_AREA)
 
             if face_roi_resized is not None:
-                # Guardar el rostro en la carpeta de la persona
                 photo_path = os.path.join(person_folder_path, f'rostro_{count}.jpg')
                 cv2.imwrite(photo_path, face_roi_resized)
                 print(f"Rostro capturado y guardado en: {photo_path}")
                 count += 1
-                return   NOMBRE, APELLIDO,CEDULA,
 
             if count >= count_limit:
                 break
 
         cv2.imshow('Captura de rostros', frame)
+        cv2.resizeWindow('Captura de rostros', 800, 600)  # Ajusta el tamaño de la ventana
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
     cap.release()
     cv2.destroyAllWindows()
 
-   
+    return CEDULA, NOMBRE, APELLIDO

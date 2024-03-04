@@ -5,7 +5,7 @@ from reconfacial1.borrar_datos_xml import borrar_datos_xml
 from reconfacial1.capturandoRostros import  capturar_rostros3
 from reconfacial1.forms import PersonaForm
 from reconfacial1.entrenandoRF import entrenando
-
+import os
 data_path = 'C:/xampp/htdocs/crud/biometrikAssProject/data' 
 # Create your views here.
 
@@ -13,7 +13,6 @@ def home(request):
     return render(request, 'home.html')
 
 def capturar_rostros(request):
-   
     if request.method == 'POST':
         form = PersonaForm(request.POST)
         if form.is_valid():
@@ -26,21 +25,36 @@ def capturar_rostros(request):
             # Llamar a capturar_rostros3 con los datos del formulario
             cedula, nombre, apellido = capturar_rostros3(cedula,nombre,apellido) 
             
-            # Llamar al entrenamiento después de la captura
-            entrenando( cedula, nombre, apellido)
             # Redirigir a una página de éxito
-            return redirect('reconfacial1:capturar_rostros_exitoso')
+            return redirect('reconfacial1:capturar_rostros_exitoso',cedula=cedula,nombre=nombre,apellido=apellido)
     else:
         form = PersonaForm()
     return render(request, 'capturaRostros.html', {'form': form})
 
 
-def capturar_rostros_exitoso(request):
-    return render(request, 'capturar_rostros_exitoso.html')
+# En la vista capturar_rostros_exitoso
+def capturar_rostros_exitoso(request, cedula, nombre, apellido):
+    # Resto del código...
+
+    # Obtener la lista de nombres de archivo de las imágenes en la carpeta de la persona
+    file_names = [f'rostro_{i}.jpg' for i in range(5)]  # Lista de nombres de archivo de 0 a 4
+
+    # Definir la ruta de la carpeta de la persona (person_folder_path)
+    person_folder_path = os.path.join(data_path, cedula, nombre, apellido)
+
+    # Pasar las variables al contexto del template
+    context = {
+        'file_names': file_names,
+        'person_folder_path': person_folder_path,
+    }
+
+    # Renderizar la plantilla con el contexto
+    return render(request, 'capturar_rostros_exitoso.html', context)
+
   
-#def entrenandoRF(photo_path, cedula, nombre, apellido):
- #    entrenando(photo_path, cedula, nombre, apellido)
- #  return redirect('reconfacial1:entrenamiento_exitoso')
+def entrenandoRF(cedula, nombre, apellido):
+     return entrenando(cedula, nombre, apellido)
+     return redirect('reconfacial1:entrenamiento_exitoso')
 
 
 def reconocer(request):
