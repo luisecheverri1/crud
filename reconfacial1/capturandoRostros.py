@@ -1,4 +1,5 @@
 
+
 import os
 import shutil
 import time
@@ -6,12 +7,13 @@ import cv2
 
 data_path = "C:/xampp/htdocs/crud-1/biometrikAssProject/data"
 
-def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=50):
-    person_folder_path = os.path.join(data_path, CEDULA, NOMBRE, APELLIDO)
+def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=30):
+    person_folder_path = os.path.join(data_path, CEDULA)
 
     if os.path.exists(person_folder_path):
         print(f"La carpeta para la cédula {CEDULA} ya existe. Sobrescribiendo los datos...")
         shutil.rmtree(person_folder_path)
+    person_folder_path = os.path.join(data_path, CEDULA, NOMBRE, APELLIDO)
     os.makedirs(person_folder_path)
 
     cap = cv2.VideoCapture(0)  
@@ -62,3 +64,6 @@ def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=50):
     cv2.destroyAllWindows()
 
     return CEDULA, NOMBRE, APELLIDO
+
+
+

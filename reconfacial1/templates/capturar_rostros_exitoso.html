@@ -10,20 +10,59 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- Tu estilo personalizado -->
   <style>
-    /* Agrega tu estilo personalizado aquí */
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* Evitar que el contenido se desplace debajo de la barra de Windows */
+  }
+
+  .container-full-height {
+      height: calc(100% - 60px); /* Reducir la altura para acomodar las barras de Windows */
+      display: flex;
+  }
+
+  .sidebar {
+      width: 20%; /* Ancho del sidebar */
+      padding: 20px;
+      background-color: #f8f9fa; /* Color de fondo del sidebar */
+      border-radius: 10px; /* Borde redondeado */
+      overflow-y: auto; /* Permitir desplazamiento vertical si el contenido es demasiado largo */
+  } 
+  
+  .sidebar a{
+      display: block;
+      margin-bottom: 10px; /* Espacio entre cada enlace */
+  }
+
+  .main-content {
+      flex: 1; /* El contenido principal ocupa todo el espacio disponible */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+  }
+
+  footer {
+      background-color: #333; /* Color de fondo negro */
+      color: #fff; /* Color del texto blanco */
+      padding: 20px 0; /* Relleno superior e inferior */
+      width: 100%;
+      position: absolute; /* Posicionamiento absoluto para el footer */
+      bottom: 0; /* Colocar el footer al final de la pantalla */
+  }
   </style>
    
 </head>
 <body>
-  <div class="container mt-5">
+  <div class="container-full-height">
+    <div class="sidebar">
 
     <h1>CAPTURAR ROSTROS EXITOSO</h1>
  
       
-       <!-- Mostrar las imágenes capturadas manualmente -->
-       {% for file_name in file_names %}
-       <img src="{{ person_folder_path }}/{{ file_name }}" class="img-fluid mb-3">
-      {% endfor %}
+   
         
    
   </div>
