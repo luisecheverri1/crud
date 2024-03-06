@@ -7,7 +7,7 @@ import cv2
 
 data_path = "C:/xampp/htdocs/crud-1/biometrikAssProject/data"
 
-def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=30):
+def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=300):
     person_folder_path = os.path.join(data_path, CEDULA)
 
     if os.path.exists(person_folder_path):
@@ -27,6 +27,12 @@ def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=30):
 
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     count = 0
+    
+    cv2.namedWindow('Captura de rostros', cv2.WINDOW_NORMAL)  # Crear una ventana con tamaño ajustable
+    cv2.setWindowProperty('Captura de rostros', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)  # Maximizar la ventana
+
+    
+    
     while count < count_limit:
         ret, frame = cap.read()
         if not ret:

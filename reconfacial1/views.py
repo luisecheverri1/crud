@@ -51,10 +51,29 @@ def capturar_rostros_exitoso(request, cedula, nombre, apellido):
     # Renderizar la plantilla con el contexto
     return render(request, 'capturar_rostros_exitoso.html', context)
 
-  
-def entrenandoRF(cedula, nombre, apellido):
-     return entrenando(cedula, nombre, apellido)
-     return redirect('reconfacial1:entrenamiento_exitoso')
+     
+def entrenandoRF(request):
+    if request.method == 'POST':
+        # Suponiendo que obtienes los datos de CEDULA, NOMBRE y APELLIDO de algún formulario
+        cedula = request.POST.get('CEDULA')
+        nombre = request.POST.get('NOMBRE')
+        apellido = request.POST.get('APELLIDO')
+
+        # Llama a la función 'entrenando' con los datos obtenidos
+        cedula, nombre, apellido = entrenando(cedula,nombre,apellido) 
+
+        # Si deseas redirigir a otra página después de que se complete el entrenamiento,
+        # puedes hacerlo aquí, por ejemplo:
+        return render(request, 'entrenamiento_exitoso.html')
+
+    elif request.method == 'GET':
+        # Si se recibe una solicitud GET, simplemente renderiza la plantilla entrenandoRF.html
+        return render(request, 'entrenandoRF.html')
+
+    else:
+        # Si se recibe una solicitud con un método diferente a GET o POST, devuelve un mensaje de error
+        return HttpResponse("Error: Método de solicitud no válido.")
+
 
 
 def reconocer(request):

@@ -1,0 +1,140 @@
+<!-- capturaRostros.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Captura de Rostros</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tu estilo personalizado -->
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* Evitar que el contenido se desplace debajo de la barra de Windows */
+  }
+
+  .container-full-height {
+      height: calc(100% - 60px); /* Reducir la altura para acomodar las barras de Windows */
+      display: flex;
+  }
+
+  .sidebar {
+      width: 20%; /* Ancho del sidebar */
+      padding: 20px;
+      background-color: #f8f9fa; /* Color de fondo del sidebar */
+      border-radius: 10px; /* Borde redondeado */
+      overflow-y: auto; /* Permitir desplazamiento vertical si el contenido es demasiado largo */
+  } 
+  
+  .sidebar a{
+      display: block;
+      margin-bottom: 10px; /* Espacio entre cada enlace */
+  }
+
+  .main-content {
+      flex: 1; /* El contenido principal ocupa todo el espacio disponible */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+  }
+
+  footer {
+      background-color: #333; /* Color de fondo negro */
+      color: #fff; /* Color del texto blanco */
+      padding: 20px 0; /* Relleno superior e inferior */
+      width: 100%;
+      position: absolute; /* Posicionamiento absoluto para el footer */
+      bottom: 0; /* Colocar el footer al final de la pantalla */
+  }
+  </style>
+</head>
+<body>
+  <div class="container-full-height">
+    <div class="sidebar">
+       <h1>TOMAR DATOS Y FOTOS DE LA PERSONA</h1>
+        <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% if form %}
+            {{ form.as_p }}
+          {% else %}
+            <p>Error: Formulario no disponible.</p>
+          {% endif %}
+
+          <!-- Botón para capturar imagen desde la cámara manualmente -->
+          <button type="submit" class="btn btn-primary mb-3">Capturar desde la cámara</button>
+          
+          <!-- Mostrar las imagenes capturadas manualmente -->
+          <img id="fotoCapturada" class="img-fluid mb-3" style="display: block;">
+          
+          <!-- Campo oculto para la imagen capturada desde la cámara -->
+          <input type="hidden" name="foto_path" id="foto_path">
+
+          <!-- Botón de guardar -->
+          <input type="submit" value="GUARDAR" class="btn btn-success">
+
+          <button id="openCameraBtn" class="btn btn-info">Abrir cámara</button>
+          
+          <!-- Botón para cerrar la cámara -->
+          <button id="closeCameraBtn" class="btn btn-danger">Cerrar cámara</button>
+
+        </form>
+      </div>
+
+
+      <div class="main-content">
+        <!-- Aquí mostrarás el video -->
+        <video id="video" width="1200" height="840" autoplay></video>
+    </div>
+
+  </div>
+  <footer class="text-center">
+    <div class="container">
+        <p>&copy; 2024 BIOMETRIKASS. Todos los derechos reservados.</p>
+    </div>
+</footer>
+  <!-- jQuery y Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Tu script personalizado -->
+ <script>
+       // Obtener el elemento de video
+       const video = document.getElementById('video');
+       let stream;
+
+       // Obtener acceso a la cámara
+       function openCamera() {
+         navigator.mediaDevices.getUserMedia({ video: true })
+           .then(stream => {
+             // Asignar la transmisión de la cámara al elemento de video
+             video.srcObject = stream;
+             stream = stream;
+           })
+           .catch(error => {
+             console.error('Error al acceder a la cámara:', error);
+           });
+       }
+
+       // Cerrar la cámara y liberar recursos
+       function closeCamera() {
+         if (stream) {
+           stream.getTracks().forEach(track => {
+             track.stop();
+           });
+         }
+       }
+
+       // Evento para abrir la cámara
+       document.getElementById('openCameraBtn').addEventListener('click', openCamera);
+
+       // Evento para cerrar la cámara
+       document.getElementById('closeCameraBtn').addEventListener('click', closeCamera);
+  </script>
+</body>
+</html>
