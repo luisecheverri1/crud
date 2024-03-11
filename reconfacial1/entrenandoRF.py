@@ -2,12 +2,15 @@ import cv2
 import os
 import numpy as np
 
-def entrenando(CEDULA, NOMBRE, APELLIDO):
-    # Directorio donde se almacenan las imágenes de entrenamiento
-    data_path = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data' 
-    
+# Directorio donde se almacenan las imágenes de entrenamiento
+data_path = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data'
+
+def entrenando(cedula, nombre, apellido):
+    print("Iniciando el proceso de entrenamiento...")
+
     # Listar las personas en el directorio de datos
     people_list = os.listdir(data_path)
+    print("Lista de personas:", people_list)
     
     # Verificar que haya al menos dos personas antes de continuar
     if len(people_list) < 2:
@@ -48,8 +51,13 @@ def entrenando(CEDULA, NOMBRE, APELLIDO):
     # Entrenar el reconocedor de rostros con los datos recopilados
     print("Entrenando el reconocedor de rostros...")
     face_recognizer.train(faces_data, np.array(labels))
+    print("Entrenamiento completado.")
     
-    # Almacenar el modelo entrenado en un archivo XML
-    model_path = 'C:/xampp/htdocs/crud-1/modeloFisherFace.xml'
+    # Crear la ruta del archivo XML para guardar el modelo entrenado
+    model_path = os.path.join('C:/xampp/htdocs/crud-1/', 'modeloFisherFace.xml')
+    
+    # Escribir el modelo entrenado en el archivo XML
     face_recognizer.write(model_path)
     print(f"Modelo entrenado almacenado en {model_path}")
+
+    return None  # Agrega esta línea para devolver None al final de la función
