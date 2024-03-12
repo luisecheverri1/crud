@@ -6,11 +6,13 @@ import numpy as np
 data_path = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data'
 
 def entrenando(cedula, nombre, apellido):
+    
     print("Iniciando el proceso de entrenamiento...")
 
     # Listar las personas en el directorio de datos
     people_list = os.listdir(data_path)
     print("Lista de personas:", people_list)
+    
     
     # Verificar que haya al menos dos personas antes de continuar
     if len(people_list) < 2:

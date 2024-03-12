@@ -67,21 +67,26 @@
             <p>Error: Formulario no disponible.</p>
           {% endif %}
 
-          <!-- Botón para capturar imagen desde la cámara manualmente -->
-          <button type="submit" class="btn btn-primary mb-3">Capturar desde la cámara</button>
-          
-          <!-- Campo oculto para la imagen capturada desde la cámara -->
-          <input type="hidden" name="foto_path" id="foto_path">
-
-          <!-- Botón de guardar -->
-          <input type="submit" value="GUARDAR" class="btn btn-success">
+          <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary mb-3">Capturar Rostros</button>
         </form>
+        <!-- Botón para ENTRENAR -->
+        <form method="post" action="{% url 'reconfacial1:entrenandoRF' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary mb-3">Entrenar AI</button>
+        </form>
+        <!-- Botón para RECONOCER rostros -->
+        <form method="post" action="{% url 'reconfacial1:reconocer' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary mb-3">Reconocer Rostros</button>
+        </form>
+        
       </div>
-
       <div class="main-content">
         <!-- Aquí mostrarás el video -->
         <video id="video" width="1200" height="840" autoplay></video>
-    </div>
+    
 
   </div>
   <footer class="text-center">

@@ -69,7 +69,7 @@ def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=300):
     cap.release()
     cv2.destroyAllWindows()
 
-    return CEDULA, NOMBRE, APELLIDO
+    return (CEDULA, NOMBRE, APELLIDO)
 
 
 

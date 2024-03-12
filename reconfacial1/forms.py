@@ -5,4 +5,4 @@ from reconfacial1.models import Persona
 class PersonaForm(forms.ModelForm):
     class Meta:
         model = Persona
-        fields = [ 'NOMBRE', 'APELLIDO' ,'CEDULA']
+        fields = ['CEDULA','NOMBRE','APELLIDO']
