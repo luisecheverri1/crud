@@ -1,18 +1,24 @@
 import cv2
 import os
-import numpy as np
+from django.shortcuts import render
+from reconfacial1.capturandoRostros import capturar_rostros3
 
 # Directorio donde se almacenan las imágenes de entrenamiento
 data_path = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data'
 
-def entrenando(cedula, nombre, apellido):
-    
+def entrenando(request, cedula, nombre, apellido):
     print("Iniciando el proceso de entrenamiento...")
+
+    # Llamar a la función capturar_rostros3 para obtener el valor de count
+    resultado_captura = capturar_rostros3(cedula, nombre, apellido)
+
+    # Obtener el valor de count del resultado de la captura
+    photo_path = resultado_captura[3]  # Obtener el path de la foto capturada
+    count = resultado_captura[-1]  # Último elemento de la tupla
 
     # Listar las personas en el directorio de datos
     people_list = os.listdir(data_path)
     print("Lista de personas:", people_list)
-    
     
     # Verificar que haya al menos dos personas antes de continuar
     if len(people_list) < 2:
@@ -62,4 +68,5 @@ def entrenando(cedula, nombre, apellido):
     face_recognizer.write(model_path)
     print(f"Modelo entrenado almacenado en {model_path}")
 
-    return None  # Agrega esta línea para devolver None al final de la función
+    return render(request, 'entrenamiento_exitoso.html', {'mensaje': 'Entrenamiento completado'})  # Cambia 'tu_template.html' según tu estructura
+

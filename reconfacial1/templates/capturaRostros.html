@@ -74,12 +74,12 @@
         <!-- Botón para ENTRENAR -->
         <form method="post" action="{% url 'reconfacial1:entrenandoRF' %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary mb-3">Entrenar AI</button>
+            <button type="submit" class="btn btn-primary mb-3"></button>
         </form>
         <!-- Botón para RECONOCER rostros -->
         <form method="post" action="{% url 'reconfacial1:reconocer' %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary mb-3">Reconocer Rostros</button>
+            <button type="submit" class="btn btn-primary mb-3"></button>
         </form>
         
       </div>

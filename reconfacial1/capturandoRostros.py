@@ -7,7 +7,8 @@ import cv2
 
 data_path = "C:/xampp/htdocs/crud-1/biometrikAssProject/data"
 
-def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=300):
+def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,count_limit=300):
+   
     person_folder_path = os.path.join(data_path, CEDULA)
 
     if os.path.exists(person_folder_path):
@@ -16,8 +17,10 @@ def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=300):
     person_folder_path = os.path.join(data_path, CEDULA, NOMBRE, APELLIDO)
     os.makedirs(person_folder_path)
 
-    cap = cv2.VideoCapture(0)  
-
+    cap = cv2.VideoCapture(0)# Prueba con índice 0  
+    if not cap.isOpened():
+        cap = cv2.VideoCapture(1)  # Si no funciona, prueba con índice 1
+        
     if not cap.isOpened():
         print("Error: No se puede abrir la cámara.Esperando...")
         time.sleep(2)
@@ -69,7 +72,12 @@ def capturar_rostros3(CEDULA, NOMBRE, APELLIDO,  count_limit=300):
     cap.release()
     cv2.destroyAllWindows()
 
-    return (CEDULA, NOMBRE, APELLIDO)
+    return (CEDULA, NOMBRE, APELLIDO,photo_path,person_folder_path,count)
 
-
-
+# Ejemplo de cómo llamar y utilizar la función capturar_rostros3
+if __name__ == "__main__":
+    cedula = "123456789"
+    nombre = "Juan"
+    apellido = "Perez"
+    resultado_captura = capturar_rostros3(cedula, nombre, apellido)
+    print("Resultado de la captura:", resultado_captura)

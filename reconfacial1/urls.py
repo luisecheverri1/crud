@@ -26,8 +26,8 @@ app_name = 'reconfacial1'
 urlpatterns = [
     path('', views.home, name='home'),
     path('capturar_rostros/', views.capturar_rostros, name='capturar_rostros'),
-    path('capturar_rostros_exitoso/<str:cedula>/<str:nombre>/<str:apellido>/', views.capturar_rostros_exitoso, name='capturar_rostros_exitoso'),
-    path('entrenandoRF/', views.entrenandoRF, name='entrenandoRF'),
+    path('capturar_rostros_exitoso/<int:cedula>/<str:nombre>/<str:apellido>/', views.capturar_rostros_exitoso, name='capturar_rostros_exitoso'),
+    path('entrenandoRF/', views.entrenando, name='entrenandoRF'),
     path('reconocer/', views.reconocer, name='reconocer'),
    
 ]

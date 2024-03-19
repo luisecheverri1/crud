@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIOMETRIKASS</title>
+    <title>HOME HTML</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Tu estilo personalizado -->
@@ -59,17 +59,17 @@
             <!-- Botón para capturar rostros -->
             <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary mb-3">Capturar Rostros</button>
+                <button type="submit" class="btn btn-primary mb-3">Crear Persona</button>
             </form>
             <!-- Botón para ENTRENAR -->
             <form method="post" action="{% url 'reconfacial1:entrenandoRF' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary mb-3">Entrenar AI</button>
+                <button type="submit" class="btn btn-primary mb-3"></button>
             </form>
             <!-- Botón para RECONOCER rostros -->
             <form method="post" action="{% url 'reconfacial1:reconocer' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary mb-3">Reconocer Rostros</button>
+                <button type="submit" class="btn btn-primary mb-3"></button>
             </form>
             
         </div>
