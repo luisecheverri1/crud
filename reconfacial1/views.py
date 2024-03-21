@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from reconfacial1.models import Persona
 from reconfacial1.forms import PersonaForm
 from reconfacial1.capturandoRostros import capturar_rostros3
-from reconfacial1.entrenandoRF import entrenando
+from .entrenandoRF import entrenando
 
 import os
 data_path = 'C:/xampp/htdocs/crud/biometrikAssProject/data' 
@@ -68,24 +68,23 @@ def capturar_rostros_exitoso( request,cedula, nombre, apellido):
     return render( request,'capturar_rostros_exitoso.html')
 
 
-def entrenandoRF(request,photo_path):
+def entrenandoRF(request, photo_path):
     if request.method == 'POST':
         form = PersonaForm(request.POST)
         if form.is_valid():
-            # Suponiendo que obtienes los datos de CEDULA, NOMBRE y APELLIDO del formulario válido
+            # Obtén los datos del formulario
             cedula = form.cleaned_data['CEDULA']
             nombre = form.cleaned_data['NOMBRE']
             apellido = form.cleaned_data['APELLIDO']
-            photo_path=0
-            
+
             # Impresión de depuración
             print("Datos del formulario:", cedula, nombre, apellido)
 
             # Llama a la función 'entrenando' con los datos obtenidos
-            entrenando(cedula, nombre, apellido, photo_path)
+            resultado_entrenamiento = entrenando(request, cedula, nombre, apellido, photo_path)
 
             # Redirige a la página de éxito después de completar el entrenamiento
-            return render(request, 'entrenamiento_exitoso.html')
+            return HttpResponse(resultado_entrenamiento)  # Renderiza el resultado del entrenamiento
 
     # Si llegamos aquí, significa que el formulario no es válido o estamos en una solicitud GET
     # En cualquiera de los casos, renderizamos la plantilla entrenandoRF.html con el formulario
