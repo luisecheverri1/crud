@@ -1,3 +1,16 @@
-<h1>ENTRENANDO ROSTROS.HTML
-    (si vemos esto hay fallas aún)
-</h1>
+<!-- c:/xampp/htdocs/crud-1/reconfacial1/templates/entrenandoRF.html -->
+<h1>ENTRENANDO ROSTROS.HTML</h1>
+
+<form method="POST">
+  {% csrf_token %}
+  <label for="cedula">Cédula:</label>
+  <input type="text" name="cedula" id="cedula" required>
+  
+  <label for="nombre">Nombre:</label>
+  <input type="text" name="nombre" id="nombre" required>
+  
+  <label for="apellido">Apellido:</label>
+  <input type="text" name="apellido" id="apellido" required>
+  
+  <input type="submit" value="Submit">
+</form>

@@ -1,0 +1,79 @@
+[33mcommit 72df5b3cd5ed1660899c0c2a93624af853ba9adc[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Tue Mar 12 16:04:59 2024 -0500
+
+    Guardar cambios del día EN EL SENA
+
+[33mcommit 68136c7039ea2e1f29e02ab888efe9cfd9aa9984[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Sun Mar 10 20:59:30 2024 -0500
+
+    domingo en casa,puse muchos prints para ver como va fluyendo el codigo.  no imprimia porq tenia demasiados terminales abiertos
+
+[33mcommit dce43220bf0dc76caf45470f0eea4eb9af3ecb8d[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Wed Mar 6 15:23:40 2024 -0500
+
+     falta conectar con entrenandoRF,solo se muestra html.
+
+[33mcommit 2a50b51fcc7501cb1d2d2ce54ffea701ebe4ec76[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Mon Mar 4 15:31:59 2024 -0500
+
+    ya se ve el video en el templete html,pero,no es a traves de la funcionalidad del codigo python,sino que esta cogiendo la camara por su java script,no la suelta,y entonces no esta tomando fotos.....hay q mostrar el video con el frame verde desde el codigo python
+
+[33mcommit cedb4a105575e1d6b1294fb7e440b3d96a54a3a4[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Sun Mar 3 19:55:49 2024 -0500
+
+    muestra video en tiempo real de la captura de fotos,pero aparece minimizado. faltaria q muestre numeros debajo del frame verde por estetica.
+
+[33mcommit 2f6f2131b132cb47f815ea8d7d11c24b5ddbae53[m
+Merge: 6d29b9f d811398
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Fri Mar 1 14:53:00 2024 -0500
+
+    este es biometrikass desde el sena ,con la sulucion del data_path debido aun llamado errado en capturando3
+
+[33mcommit 6d29b9f696775652a1c15d8cc53dca9917143779[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Thu Feb 29 15:35:24 2024 -0500
+
+    Mensaje del commit
+
+[33mcommit d811398d157a41448210b671c9a0f2c9e143243c[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Wed Feb 28 19:50:56 2024 -0500
+
+    segundo desde casa. problema linea 42 entrenandoRF,el problema parece de matrices numpy,o porque solo estamos guardando una sola foto
+
+[33mcommit 9b417cd75d2b115b4bb8583b6aa5119f21091fc4[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Wed Feb 28 15:34:41 2024 -0500
+
+    Mensaje del commit
+
+[33mcommit ca82d14269e9b47a04e0cf9389e2210f512ff8b6[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Tue Feb 27 15:40:36 2024 -0500
+
+    desde sena 27022024.toma una foto y la guarda.LEE ESTO: Lista de personas:  ['1', 'asgi.py', 'data', 'manage.py', 'settings.py', 'urls.py', 'wsgi.py', '__init__.py', '__pycache__']
+    Leyendo las imágenes¨
+
+[33mcommit ff63fb40b9edc5b0b0da72877f48da260afb1d60[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Mon Feb 26 18:30:27 2024 -0500
+
+    primer commit desde la casa
+
+[33mcommit 380cc3c9ced589064d32439a9001116ecc83b1fe[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Thu Feb 22 16:46:36 2024 -0500
+
+    Agregar archivo .gitattributes para configurar el seguimiento de Git LFS
+
+[33mcommit e7c418ccf948203b58e25fa464e1bfee507da884[m
+Author: luisecheverri1 <63933045+luisecheverri1@users.noreply.github.com>
+Date:   Thu Feb 22 16:24:34 2024 -0500
+
+    Mensaje de commit descriptivo aquí
