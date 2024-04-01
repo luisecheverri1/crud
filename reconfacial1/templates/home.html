@@ -57,17 +57,17 @@
         <div class="sidebar">
             <h1>BIOMETRIKASS</h1>
             <!-- Botón para capturar rostros -->
-            <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}">
+            <form method="post" action="{% url 'reconfacial1:capturar_rostros'%}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary mb-3">Crear Persona</button>
             </form>
             <!-- Botón para ENTRENAR -->
-            <form method="post" action="{% url 'reconfacial1:entrenandoRF' %}">
+            <form method="post" action="{% url 'reconfacial1:entrenandoRF' id nombre apellido photo_path %}">
                     {% csrf_token %}
-                    <input type="hidden" name="cedula" value="[value_for_cedula]">
-                    <input type="hidden" name="nombre" value="[value_for_nombre]">
-                    <input type="hidden" name="apellido" value="[value_for_apellido]">
-                    <input type="hidden" name="photo_path" value="[value_for_photo_path]">
+                    <input type="hidden" name="id" value="{{ id }}">
+                    <input type="hidden" name="nombre" value="{{ nombre }}">
+                    <input type="hidden" name="apellido" value="{{ apellido }}">
+                    <input type="hidden" name="photo_path" value="{{ photo_path }}">
                     <button type="submit" class="btn btn-primary mb-3"></button>
             </form>
             <!-- Botón para RECONOCER rostros -->
