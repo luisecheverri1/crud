@@ -1,2 +1,2 @@
-git add .gitignore
-git commit -m "Update .gitignore"
+__pycache__/
+biometrikAssProject/data/
