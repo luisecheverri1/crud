@@ -71,7 +71,9 @@ def capturar_rostros3(cedula, nombre, apellido,count_limit=300):
 
     cap.release()
     cv2.destroyAllWindows()
-
+    
+    # Asegúrate de que photo_path se define antes de intentar devolverlo
+    photo_path = "algún valor"
     return (cedula,nombre,apellido,photo_path,person_folder_path,count)
 
 # Ejemplo de cómo llamar y utilizar la función capturar_rostros3

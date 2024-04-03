@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from reconfacial1 import views 
-
+from django.urls import path, re_path
 
 app_name = 'reconfacial1'
 
@@ -26,10 +26,11 @@ app_name = 'reconfacial1'
 urlpatterns = [
     path('', views.home, name='home'),
     path('capturar_rostros/', views.capturar_rostros, name='capturar_rostros'),
-    path('capturar_rostros_exitoso/<int:cedula>/<str:nombre>/<str:apellido>/', views.capturar_rostros_exitoso, name='capturar_rostros_exitoso'),
-    path('entrenandoRF/', views.entrenandoRF, name='entrenandoRF'),
+    path('capturar_rostros_exitoso/<int:cedula>/<str:nombre>/<str:apellido>/<photo_path>/', views.capturar_rostros_exitoso, name='capturar_rostros_exitoso'),
+    path('entrenandoRF/<int:cedula>/<str:nombre>/<str:apellido>/<str:photo_path>/', views.entrenandoRF, name='entrenandoRF'),
     path('reconocer/', views.reconocer, name='reconocer'),
-   
+    # Acepta cualquier cadena de caracteres como parte de photo_path
+    re_path(r'^capturar_rostros_exitoso/(?P<cedula>[0-9]+)/(?P<nombre>[^/]+)/(?P<apellido>[^/]+)/(?P<photo_path>.+)/$', views.capturar_rostros_exitoso, name='capturar_rostros_exitoso'),
 ]
 
 

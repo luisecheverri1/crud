@@ -65,7 +65,7 @@
           <button type="submit" class="btn btn-primary mb-3">C</button>
       </form>
       <!-- Botón para ENTRENAR -->
-      <form method="post" action="{% url 'reconfacial1:entrenandoRF' %}">
+      <!--<form method="post" action="{% url 'reconfacial1:entrenandoRF' %}">
         {% csrf_token %}
         <input type="hidden" name="cedula" value="{{ cedula_value }}">
         <input type="hidden" name="nombre" value="{{ nombre_value }}">

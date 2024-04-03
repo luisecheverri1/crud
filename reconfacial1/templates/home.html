@@ -61,19 +61,10 @@
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary mb-3">Crear Persona</button>
             </form>
-            <!-- Botón para ENTRENAR -->
-            <form method="post" action="{% url 'reconfacial1:entrenandoRF' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="cedula" value="[value_for_cedula]">
-                    <input type="hidden" name="nombre" value="[value_for_nombre]">
-                    <input type="hidden" name="apellido" value="[value_for_apellido]">
-                    <input type="hidden" name="photo_path" value="[value_for_photo_path]">
-                    <button type="submit" class="btn btn-primary mb-3"></button>
-            </form>
+          <!-- Botón para ENTRENAR -->
+        
             <!-- Botón para RECONOCER rostros -->
-            <form method="post" action="{% url 'reconfacial1:reconocer' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary mb-3"></button>
+            
             </form>
             
         </div>

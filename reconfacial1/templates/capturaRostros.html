@@ -59,6 +59,8 @@
   <div class="container-full-height">
     <div class="sidebar">
        <h1>TOMAR DATOS Y FOTOS DE LA PERSONA</h1>
+       
+       <!-- Botón para CAPTURAR -->
         <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}" enctype="multipart/form-data">
           {% csrf_token %}
           {% if form %}
@@ -66,26 +68,15 @@
           {% else %}
             <p>Error: Formulario no disponible.</p>
           {% endif %}
-
-          <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary mb-3">Capturar Rostros</button>
+          <button type="submit" class="btn btn-primary mb-3">Capturar Rostros</button>
         </form>
+       
+         
         <!-- Botón para ENTRENAR -->
-        <form method="post" action="{% url 'reconfacial1:entrenandoRF' %}">
-              {% csrf_token %}
-              <input type="hidden" name="cedula" value="[value_for_cedula]">
-              <input type="hidden" name="nombre" value="[value_for_nombre]">
-              <input type="hidden" name="apellido" value="[value_for_apellido]">
-              <input type="hidden" name="photo_path" value="[value_for_photo_path]">
-              <button type="submit" class="btn btn-primary mb-3"></button>
-        </form>
-        <!-- Botón para RECONOCER rostros -->
-        <form method="post" action="{% url 'reconfacial1:reconocer' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary mb-3"></button>
-        </form>
+       
         
+        <!-- Botón para RECONOCER rostros -->
+       
       </div>
       <div class="main-content">
         <!-- Aquí mostrarás el video -->

@@ -1,19 +1,23 @@
 
 
 from urllib import request
+from urllib.parse import quote
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from reconfacial1.models import Persona
 from reconfacial1.forms import PersonaForm
-from reconfacial1.capturandoRostros import capturar_rostros3
+from .capturandoRostros import capturar_rostros3
 from .entrenandoRF import entrenando
-
+from .forms import PersonaForm
 import os
+
 data_path = 'C:/xampp/htdocs/crud/biometrikAssProject/data' 
 # Create your views here.
 
 
 def home(request):
+    persona = Persona.objects.first()
     print("Entering the home view function")
     
     # Render the home.html template
@@ -34,15 +38,25 @@ def capturar_rostros(request):
             cedula = form.cleaned_data['CEDULA']
             nombre = form.cleaned_data['NOMBRE']
             apellido = form.cleaned_data['APELLIDO']
-            
+           
             print("Datos del formulario:", cedula, nombre, apellido)
 
-            capturar_rostros3(cedula, nombre, apellido) 
-            
+            #Captura photo_path cuando llamas a capturar_rostros3
+            cedula, nombre, apellido, photo_path, person_folder_path, count=capturar_rostros3(cedula, nombre, apellido)
+
+               # Codifica photo_path para que sea seguro usarlo en una URL
+            photo_path = quote(photo_path)
+
+            # Construye la URL de redirección con photo_path como un parámetro de cadena de consulta
+            redirect_url = reverse('reconfacial1:capturar_rostros_exitoso', args=[cedula, nombre, apellido,photo_path])
+            redirect_url += f'?photo_path={photo_path}'
             print("Redirecting to capturar_rostros_exitoso")
-            return redirect('reconfacial1:capturar_rostros_exitoso', cedula=cedula, nombre=nombre, apellido=apellido)
+            return HttpResponseRedirect(redirect_url)
+            
+           
         else:
             print("Form is not valid")
+            print(form.errors)
     else:
         print("HTTP method is not POST")
         form = PersonaForm()
@@ -54,7 +68,7 @@ def capturar_rostros(request):
 
 
 # En la vista capturar_rostros_exitoso
-def capturar_rostros_exitoso(request, cedula, nombre, apellido):
+def capturar_rostros_exitoso(request, cedula, nombre, apellido, photo_path):
     print("Entering capturar_rostros_exitoso view function")
     print("Request method:", request.method)
     print("Cédula:", cedula)
@@ -68,6 +82,7 @@ def capturar_rostros_exitoso(request, cedula, nombre, apellido):
             cedula = form.cleaned_data['CEDULA']
             nombre = form.cleaned_data['NOMBRE']
             apellido = form.cleaned_data['APELLIDO']
+            photo_path = form.cleaned_data['photo_path']
             print("Datos del formulario:", cedula, nombre, apellido)
 
             # Obtener la lista de nombres de archivo de las imágenes en la carpeta de la persona
@@ -84,13 +99,13 @@ def capturar_rostros_exitoso(request, cedula, nombre, apellido):
             }
 
             print("Redirecting to entrenandoRF")
-            return redirect('reconfacial1:entrenandoRF', cedula=cedula, nombre=nombre, apellido=apellido)
+            return redirect('reconfacial1:entrenandoRF', cedula=cedula, nombre=nombre, apellido=apellido, photo_path=photo_path)
 
     print("Rendering capturar_rostros_exitoso.html template")
     return render(request, 'capturar_rostros_exitoso.html', context)
 
 
-def entrenandoRF(request,cedula, nombre, apellido):
+def entrenandoRF(request,nombre ,apellido, cedula, photo_path):
     print("Entering entrenandoRF view function")
     print("Request method:", request.method)
 
@@ -131,7 +146,7 @@ def entrenandoRF_exitoso(request):
     for key, value in request.__dict__.items():
         print("\t", key, ":", value)
 
-    # Return the HTTP response
+    # Return the HTTP response{% url 'entrenandoRF' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path %}
     print("Returning HTTP response with message 'Entrenamiento exitoso'")
     
     return entrenando(request)
@@ -172,3 +187,5 @@ def capturar_rostros_exitoso(request, cedula, nombre, apellido):
     # Si llegamos aquí, significa que el formulario no es válido o estamos en una solicitud GET
     # En cualquiera de los casos, renderizamos la plantilla capturar_rostros_exitoso.html
     return render(request, 'capturar_rostros_exitoso.html')
+
+
