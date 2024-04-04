@@ -60,12 +60,9 @@
     <div class="sidebar">
         <h1>CAPTURA EXITOSA</h1>
         <!-- Botón para capturar rostros -->
-        <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-primary mb-3">C</button>
-      </form>
+        
       <!-- Botón para ENTRENAR -->
-      <!--<form method="post" action="{% url 'reconfacial1:entrenandoRF' %}">
+      <form method="post" action="{% url 'reconfacial1:entrenandoRF' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path %}">
         {% csrf_token %}
         <input type="hidden" name="cedula" value="{{ cedula }}">
         <input type="hidden" name="nombre" value="{{ nombre }}">
@@ -74,10 +71,7 @@
         <button type="submit" class="btn btn-primary mb-3">Entrenar</button>
       </form>
       <!-- Botón para RECONOCER rostros -->
-      <form method="post" action="{% url 'reconfacial1:reconocer' %}">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-primary mb-3">R</button>
-      </form>
+      
      
         
     </div>
