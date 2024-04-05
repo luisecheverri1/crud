@@ -8,7 +8,6 @@ from reconfacial1.models import Persona
 from reconfacial1.forms import PersonaForm
 from .capturandoRostros import capturar_rostros3
 from .entrenandoRF import entrenando
-from .forms import PersonaForm
 import os
 from urllib.parse import quote
 
@@ -43,10 +42,10 @@ def capturar_rostros(request):
             print("Datos del formulario:", cedula, nombre, apellido)
 
             #Captura photo_path cuando llamas a capturar_rostros3
-            cedula, nombre, apellido, photo_path, person_folder_path, count=capturar_rostros3(cedula, nombre, apellido)
+            cedula, nombre, apellido, photo_path, person_folder_path, count = capturar_rostros3(cedula, nombre, apellido,count=0)
 
                # Codifica photo_path para que sea seguro usarlo en una URL
-            photo_path = quote(photo_path)
+            photo_path = quote(photo_path.encode())
             redirect_url = reverse('reconfacial1:capturar_rostros_exitoso', args=[cedula, nombre, apellido, photo_path])
            
 
@@ -123,7 +122,7 @@ def capturar_rostros_exitoso(request, cedula='', nombre='', apellido='', photo_p
     return render(request, 'capturar_rostros_exitoso.html', context)
 
 
-def entrenandoRF(request,nombre ,apellido, cedula, photo_path):
+def entrenandoRF(request,nombre ,apellido, cedula, photo_path, count):
     print("Entering entrenandoRF view function")
     print("Request method:", request.method)
     print("POST data:", request.POST)
@@ -136,7 +135,7 @@ def entrenandoRF(request,nombre ,apellido, cedula, photo_path):
             print("Form is valid")
             persona = form.save()
             # Call the 'entrenando' function with the form data
-            resultado_entrenamiento = entrenando(request, cedula, nombre, apellido, photo_path)
+            entrenando(request, cedula, nombre, apellido, photo_path, count)
 
             print("Redirecting to entrenandoRF_exitoso")
             return HttpResponse(resultado_entrenamiento)  # Render the training result
