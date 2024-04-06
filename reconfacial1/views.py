@@ -77,6 +77,7 @@ def capturar_rostros_exitoso(request, cedula='', nombre='', apellido='', photo_p
 
     # Define file_names and person_folder_path here
     file_names = [f'rostro_{i}.jpg' for i in range(299)]  # Lista de nombres de archivo de 0 a 299
+    count = len(file_names)  # Calcula el número de archivos
     person_folder_path = os.path.join(data_path,str(cedula), nombre, apellido)
 
 
@@ -88,6 +89,7 @@ def capturar_rostros_exitoso(request, cedula='', nombre='', apellido='', photo_p
                 'nombre': nombre,
                 'apellido': apellido,
                 'photo_path': photo_path,
+                'count': count,
                 }
 
     if request.method == 'POST':

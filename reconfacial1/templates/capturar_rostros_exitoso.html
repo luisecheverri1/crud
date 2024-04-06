@@ -62,7 +62,7 @@
         <!-- Botón para capturar rostros -->
         
       <!-- Botón para ENTRENAR -->
-      <form method="post" action="{% url 'reconfacial1:entrenandoRF' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path %}">
+      <form method="post" action="{% url 'reconfacial1:entrenandoRF' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path count=count%}">
         {% csrf_token %}
         <input type="hidden" name="cedula" value="{{ cedula }}">
         <input type="hidden" name="nombre" value="{{ nombre }}">
