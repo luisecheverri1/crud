@@ -46,7 +46,7 @@ def capturar_rostros(request):
 
                # Codifica photo_path para que sea seguro usarlo en una URL
             photo_path = quote(photo_path.encode())
-            redirect_url = reverse('reconfacial1:capturar_rostros_exitoso', args=[cedula, nombre, apellido, photo_path])
+            redirect_url = reverse('reconfacial1:capturar_rostros_exitoso', args=[cedula, nombre, apellido, photo_path,count])
            
 
             print("Redirecting to capturar_rostros_exitoso")
@@ -66,7 +66,7 @@ def capturar_rostros(request):
 
 
 # En la vista capturar_rostros_exitoso
-def capturar_rostros_exitoso(request, cedula='', nombre='', apellido='', photo_path=''):
+def capturar_rostros_exitoso(request, cedula='', nombre='', apellido='', photo_path='',count=''):
     print("Entering capturar_rostros_exitoso view function")
     print("Request method:", request.method)
     print(f"cedula: {cedula}")
@@ -118,7 +118,7 @@ def capturar_rostros_exitoso(request, cedula='', nombre='', apellido='', photo_p
             }
 
             print("Redirecting to entrenandoRF")
-            return redirect('reconfacial1:entrenandoRF', cedula=cedula, nombre=nombre, apellido=apellido, photo_path=photo_path)
+            return redirect('reconfacial1:entrenandoRF', cedula=cedula, nombre=nombre, apellido=apellido, photo_path=photo_path,count=count)
 
     print("Rendering capturar_rostros_exitoso.html template")
     return render(request, 'capturar_rostros_exitoso.html', context)

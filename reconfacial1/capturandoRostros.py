@@ -29,7 +29,7 @@ def capturar_rostros3(cedula, nombre, apellido,count,count_limit=300):
         print("¡Cámara abierta correctamente!")
 
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-    count = 0
+   
     
     cv2.namedWindow('Captura de rostros', cv2.WINDOW_NORMAL)  # Crear una ventana con tamaño ajustable
     cv2.setWindowProperty('Captura de rostros', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)  # Maximizar la ventana

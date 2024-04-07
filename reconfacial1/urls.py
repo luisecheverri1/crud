@@ -26,7 +26,7 @@ urlpatterns = [
 
     path('capturar_rostros/', views.capturar_rostros, name='capturar_rostros'),
 
-    re_path(r'^capturar_rostros_exitoso/(?P<cedula>[0-9]+)/(?P<nombre>[^/]+)/(?P<apellido>[^/]+)/(?P<photo_path>.+)/$', views.capturar_rostros_exitoso, name='capturar_rostros_exitoso'),
+    re_path(r'^capturar_rostros_exitoso/(?P<cedula>[0-9]+)/(?P<nombre>[^/]+)/(?P<apellido>[^/]+)/(?P<photo_path>.+)/(?P<count>[0-9]+)/$', views.capturar_rostros_exitoso, name='capturar_rostros_exitoso'),
 
     path('entrenandoRF/<str:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<int:count>/', views.entrenandoRF, name='entrenandoRF'),
     

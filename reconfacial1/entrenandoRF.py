@@ -7,64 +7,52 @@ from django.http import HttpResponse
 import urllib.parse
 # Directorio donde se almacenan las imágenes de entrenamiento
 
-def entrenando(request, cedula, nombre, apellido, photo_path,person_folder_path, count):
+def entrenando(request, cedula, nombre, apellido, photo_path,person_folder_path):
+    
     data_path = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data'
-    # Your view logic here
+    print(f"data_path: {data_path}")  # Imprimir data_path
+
     if cedula is not None:
         print("Iniciando el proceso de entrenamiento...")
 
-         # Decodificar photo_path y obtener la ruta al directorio que contiene todas las fotos capturadas
         photo_path = urllib.parse.unquote(photo_path)
-        photo_dir = os.path.dirname(photo_path)
+        print(f"photo_path después de decodificar: {photo_path}")  # Imprimir photo_path después de decodificar
 
-        # Listar las personas en el directorio de datos
+        photo_dir = os.path.dirname(photo_path)
+        print(f"photo_dir: {photo_dir}")  # Imprimir photo_dir
+
         people_list = os.listdir(data_path)
-        print("Lista de personas:", people_list)
-        
-        
-        # Crear listas para almacenar etiquetas y datos de rostros
+        print(f"people_list: {people_list}")  # Imprimir people_list
+
         labels = []
         faces_data = []
         label = 0
-        
-        # Iterar sobre cada persona en el directorio de datos
+
         for name_dir in people_list:
-            person_path = os.path.join(data_path, name_dir)
-            print('Leyendo las imágenes de:', person_path)
-            
-           # Iterar sobre cada subcarpeta de la persona
-            for subfolder in os.listdir(person_path):
-                subfolder_path = os.path.join(person_path, subfolder)
-                
-                # Iterar sobre cada archivo de imagen en la subcarpeta
-                for file_name in os.listdir(subfolder_path):
-                    # Construir la ruta del archivo de la imagen
-                    image_path = os.path.join(subfolder_path, file_name)
+            person_path = os.path.join(data_path, name_dir, nombre, apellido)
+            print(f"person_path: {person_path}")  # Imprimir person_path
 
-                    # Verificar que el archivo existe antes de intentar leerlo
-                    if not os.path.isfile(image_path):
-                        print(f"El archivo no existe: {image_path}")
-                        continue
+            for count in range(300):
+                image_path = os.path.join(person_path, f'rostro_{count}.jpg')
+                print(f"image_path: {image_path}")  # Imprimir image_path
 
-                    # Leer la imagen en escala de grises
-                    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                if not os.path.isfile(image_path):
+                    print(f"El archivo no existe: {image_path}")
+                    continue
 
-                    # Verificar si la imagen se leyó correctamente
-                    if image is None:
-                        print(f"Error: No se pudo leer la imagen {image_path}")
-                        continue
+                image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                if image is None:
+                    print(f"Error: No se pudo leer la imagen {image_path}")
+                    continue
 
-                    # Imprimir las dimensiones y el tipo de datos de la imagen
-                    print(f"Dimensiones de la imagen: {image.shape}")
-                    print(f"Tipo de datos de la imagen: {image.dtype}")
+                print(f"Dimensiones de la imagen: {image.shape}")
+                print(f"Tipo de datos de la imagen: {image.dtype}")
 
-                    # Agregar la imagen a la lista de datos de rostros y la etiqueta correspondiente a la lista de etiquetas
-                    faces_data.append(image)
-                    labels.append(label)
-            
-            # Incrementar la etiqueta para la siguiente persona
+                faces_data.append(image)
+                labels.append(label)
+
             label += 1
-        
+                
         # Verificar que haya al menos una muestra de cada persona
         if len(labels) < 2:
             print("Error: Se necesitan al menos dos personas con muestras de entrenamiento.")
