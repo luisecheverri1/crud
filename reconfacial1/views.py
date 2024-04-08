@@ -140,7 +140,8 @@ def entrenandoRF(request,nombre ,apellido, cedula, photo_path, count):
             entrenando(request, cedula, nombre, apellido, photo_path, count)
 
             print("Redirecting to entrenandoRF_exitoso")
-            return HttpResponse(resultado_entrenamiento)  # Render the training result
+            #return HttpResponse(resultado_entrenamiento)  # Render the training result
+            return redirect('reconfacial1:entrenandoRF_exitoso')
         else:
             print("Form is not valid")
             print("Form errors:", form.errors)
