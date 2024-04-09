@@ -82,7 +82,8 @@ def capturar_rostros_exitoso(request, cedula='', nombre='', apellido='', photo_p
 
 
     # Define context here
-    photo_path = quote(photo_path)
+    
+    #photo_path = quote(photo_path)
     context = {'file_names': file_names,
                 'person_folder_path': person_folder_path,
                 'cedula': cedula,
@@ -150,7 +151,7 @@ def entrenandoRF(request,nombre ,apellido, cedula, photo_path, count):
         form = PersonaForm()  # Create a form instance for GET request or form validation errors
 
     print("Rendering entrenandoRF.html template")
-    return render(request, 'entrenandoRF.html', {'form': form})
+    return render(request,cedula, nombre, apellido, photo_path, count, 'entrenandoRF.html', {'form': form})
 
 
 def entrenandoRF_exitoso(request):

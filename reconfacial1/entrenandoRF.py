@@ -10,6 +10,8 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
 
     if cedula is not None:
         print("Iniciando el proceso de entrenamiento...")
+        
+        print(f"photo_path antes de decodificar: {photo_path}")  # Imprimir photo_path antes de decodificar
 
         photo_path = urllib.parse.unquote(photo_path)
         print(f"photo_path después de decodificar: {photo_path}")  # Imprimir photo_path después de decodificar
@@ -47,15 +49,15 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
 
             print(f"person_dir: {person_dir}")  # Imprimir person_dir
 
-            for count in range(300):
-                image_path = os.path.join(person_dir, f'rostro_{count}.jpg')
-                print(f"image_path: {image_path}")  # Imprimir image_path
+            for count in range(30):
+                photo_path = os.path.join(person_dir, f'rostro_{count}.jpg')
+                print(f"image_path: {photo_path}")  # Imprimir image_path
 
-                if not os.path.isfile(image_path):
-                    print(f"El archivo no existe: {image_path}")
+                if not os.path.isfile(photo_path):
+                    print(f"El archivo no existe: {photo_path}")
                     continue
 
-                image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                image = cv2.imread(photo_path, cv2.IMREAD_GRAYSCALE)
                 if image is None:
                     print(f"Error: No se pudo leer la imagen {image_path}")
                     continue
