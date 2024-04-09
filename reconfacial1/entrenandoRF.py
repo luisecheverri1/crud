@@ -1,14 +1,10 @@
 import numpy as np
 import cv2
 import os
-#from django.shortcuts import render
-#from reconfacial1.capturandoRostros import capturar_rostros3       
 from django.http import HttpResponse
 import urllib.parse
-# Directorio donde se almacenan las imágenes de entrenamiento
 
-def entrenando(request, cedula, nombre, apellido, photo_path,person_folder_path):
-    
+def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path):
     data_path = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data'
     print(f"data_path: {data_path}")  # Imprimir data_path
 
@@ -28,12 +24,31 @@ def entrenando(request, cedula, nombre, apellido, photo_path,person_folder_path)
         faces_data = []
         label = 0
 
-        for name_dir in people_list:
-            person_path = os.path.join(data_path, name_dir, nombre, apellido)
-            print(f"person_path: {person_path}")  # Imprimir person_path
+        # Obtener la lista de directorios en data_path
+        people_dirs = [os.path.join(data_path, d) for d in os.listdir(data_path) if os.path.isdir(os.path.join(data_path, d))]
+
+        # Ordenar los directorios por fecha de modificación
+        people_dirs.sort(key=lambda x: os.path.getmtime(x))
+
+        # Obtener las dos últimas personas añadidas
+        last_two_people_dirs = people_dirs[-2:]
+
+        for person_dir in last_two_people_dirs:
+            # Obtener las partes de la ruta del directorio
+            path_parts = os.path.normpath(person_dir).split(os.sep)
+
+            # Asegurarse de que la ruta del directorio tiene al menos cuatro partes
+            if len(path_parts) < 4:
+                print(f"La ruta del directorio {person_dir} no tiene suficientes partes. Saltando este directorio.")
+                continue
+
+            # Desempaquetar las partes de la ruta del directorio
+            _, cedula, nombre, apellido = path_parts[-4:]
+
+            print(f"person_dir: {person_dir}")  # Imprimir person_dir
 
             for count in range(300):
-                image_path = os.path.join(person_path, f'rostro_{count}.jpg')
+                image_path = os.path.join(person_dir, f'rostro_{count}.jpg')
                 print(f"image_path: {image_path}")  # Imprimir image_path
 
                 if not os.path.isfile(image_path):
@@ -52,15 +67,15 @@ def entrenando(request, cedula, nombre, apellido, photo_path,person_folder_path)
                 labels.append(label)
 
             label += 1
-                
-        # Verificar que haya al menos una muestra de cada persona
-        if len(labels) < 2:
+
+                # Verificar que haya al menos una muestra de cada persona
+        if len(labels) < 2 or len(faces_data) < 2:
             print("Error: Se necesitan al menos dos personas con muestras de entrenamiento.")
-            
-        
+            return HttpResponse("Insufficient training data", status=400)  # Example response for insufficient data
+
         # Inicializar el reconocedor de rostros
         face_recognizer = cv2.face.FisherFaceRecognizer_create()
-        
+
         # Entrenar el reconocedor de rostros con los datos recopilados
         print("Entrenando el reconocedor de rostros...")
         face_recognizer.train(faces_data, np.array(labels))
@@ -77,10 +92,3 @@ def entrenando(request, cedula, nombre, apellido, photo_path,person_folder_path)
     else:
         # Handle GET requests or other cases if needed
         return HttpResponse("Method not allowed", status=405)  # Example response for other cases
-
-
-
-
-
-
-        

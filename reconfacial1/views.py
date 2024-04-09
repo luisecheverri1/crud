@@ -164,14 +164,14 @@ def entrenandoRF_exitoso(request):
 
     # Debugging statement: Print the contents of the request object
     print("Request object contents:")
-    for key, value in request.__dict__.items():
+    for key, value in request.__dict__.copy().items():
         print("\t", key, ":", value)
 
     # Return the HTTP response{% url 'entrenandoRF' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path %}
     print("Returning HTTP response with message 'Entrenamiento exitoso'")
     
-    return entrenando(request)
-
+    # Redirect to the 'reconocer' view
+    return redirect('reconfacial1:reconocer')
 
 def reconocer(request):
     print("Entering reconocer view function")
