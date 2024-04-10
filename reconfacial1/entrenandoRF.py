@@ -25,19 +25,45 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
         labels = []
         faces_data = []
         label = 0
+        print(f"labels: {labels}") 
+        print(f"faces_data: {faces_data}") 
+        print(f"label: {label}") 
 
         # Obtener la lista de directorios en data_path
         people_dirs = [os.path.join(data_path, d) for d in os.listdir(data_path) if os.path.isdir(os.path.join(data_path, d))]
+        print(f"people_dirs: {people_dirs}")  # Imprimir people_dirs
 
         # Ordenar los directorios por fecha de modificación
-        people_dirs.sort(key=lambda x: os.path.getmtime(x))
+        people_dirs.sort(key=lambda x: os.path.getmtime(x), reverse=True)
 
-        # Obtener las dos últimas personas añadidas
-        last_two_people_dirs = people_dirs[-2:]
+        # Inicializar la lista de los dos últimos directorios de personas
+        last_two_people_dirs = []
 
+      # Recorrer los directorios en orden de modificación
+        for person_dir in people_dirs:
+            # Verificar si el directorio contiene al menos una imagen de rostro
+            if any(os.path.isfile(os.path.join(person_dir, nombre, apellido, f'rostro_{i}.jpg')) for i in range(30)):
+                # Añadir el directorio a la lista
+                last_two_people_dirs.append(person_dir)
+
+                # Si ya se han añadido dos directorios, salir del bucle
+                if len(last_two_people_dirs) == 2:
+                    break
+
+        # Verificar que se encontraron dos directorios
+        if len(last_two_people_dirs) != 2:
+            print("Error: No se encontraron dos directorios con imágenes de rostros.")
+            return
+
+        # Agregar nombre y apellido a cada directorio de cédula
+        last_two_people_dirs = [os.path.join(dir, nombre, apellido) for dir in last_two_people_dirs]
+
+        print(f"last_two_people_dirs: {last_two_people_dirs}")  # Imprimir last_two_people_dirs
+        
         for person_dir in last_two_people_dirs:
             # Obtener las partes de la ruta del directorio
             path_parts = os.path.normpath(person_dir).split(os.sep)
+            print(f"path_parts: {path_parts}")  # Imprimir path_parts
 
             # Asegurarse de que la ruta del directorio tiene al menos cuatro partes
             if len(path_parts) < 4:
@@ -51,7 +77,7 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
 
             for count in range(30):
                 photo_path = os.path.join(person_dir, f'rostro_{count}.jpg')
-                print(f"image_path: {photo_path}")  # Imprimir image_path
+                print(f"photo_path: {photo_path}")  # Imprimir image_path
 
                 if not os.path.isfile(photo_path):
                     print(f"El archivo no existe: {photo_path}")
@@ -59,7 +85,7 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
 
                 image = cv2.imread(photo_path, cv2.IMREAD_GRAYSCALE)
                 if image is None:
-                    print(f"Error: No se pudo leer la imagen {image_path}")
+                    print(f"Error: No se pudo leer la imagen {photo_path}")
                     continue
 
                 print(f"Dimensiones de la imagen: {image.shape}")
@@ -70,7 +96,7 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
 
             label += 1
 
-                # Verificar que haya al menos una muestra de cada persona
+        # Verificar que haya al menos una muestra de cada persona
         if len(labels) < 2 or len(faces_data) < 2:
             print("Error: Se necesitan al menos dos personas con muestras de entrenamiento.")
             return HttpResponse("Insufficient training data", status=400)  # Example response for insufficient data
