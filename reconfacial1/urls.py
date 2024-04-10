@@ -30,7 +30,7 @@ urlpatterns = [
 
     path('entrenandoRF/<str:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<int:count>/', views.entrenandoRF, name='entrenandoRF'),
 
-    path('entrenandoRF_exitoso/', views.entrenandoRF_exitoso, name='entrenandoRF_exitoso'),
+    path('entrenandoRF_exitoso/<str:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<int:count>/', views.entrenandoRF_exitoso, name='entrenandoRF_exitoso'),
     
     path('reconocer/', views.reconocer, name='reconocer'),
 ]

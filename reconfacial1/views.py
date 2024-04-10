@@ -142,7 +142,7 @@ def entrenandoRF(request,nombre ,apellido, cedula, photo_path, count):
 
             print("Redirecting to entrenandoRF_exitoso")
             #return HttpResponse(resultado_entrenamiento)  # Render the training result
-            return redirect('reconfacial1:entrenandoRF_exitoso')
+            return redirect('reconfacial1:entrenandoRF_exitoso', cedula=cedula, nombre=nombre, apellido=apellido, photo_path=photo_path, count=count)
         else:
             print("Form is not valid")
             print("Form errors:", form.errors)
@@ -154,12 +154,17 @@ def entrenandoRF(request,nombre ,apellido, cedula, photo_path, count):
     return render(request,cedula, nombre, apellido, photo_path, count, 'entrenandoRF.html', {'form': form})
 
 
-def entrenandoRF_exitoso(request):
+def entrenandoRF_exitoso(request,nombre ,apellido, cedula, photo_path, count):
     print("Entering entrenandoRF_exitoso view function")
     print("Request object:", request)
     print("About to return HTTP response with message 'Entrenamiento exitoso'")
     
-    # Debugging statement: Print the current date and time
+    if request.method == 'POST':
+       pass 
+    else:
+        # Añade una respuesta para el caso GET
+        return HttpResponse('Esta vista solo acepta peticiones POST.')    
+        # Debugging statement: Print the current date and time
     import datetime
     print("Current date and time:", datetime.datetime.now())
 
@@ -172,14 +177,20 @@ def entrenandoRF_exitoso(request):
     print("Returning HTTP response with message 'Entrenamiento exitoso'")
     
     # Redirect to the 'reconocer' view
-    return redirect('reconfacial1:reconocer')
+    return render(request, 'reconoceRostros.html',{
+        'cedula': cedula,
+        'nombre': nombre,
+        'apellido': apellido,
+        'photo_path': photo_path,
+        'count': count,
+    })
 
-def reconocer(request):
+def reconocer(request,cedula, nombre, apellido, photo_path, count):
     print("Entering reconocer view function")
-
-    print("Rendering reconoceRostros.html template")
-    # Renderiza la plantilla reconoceRostros.html
-    return render(request, 'reconoceRostros.html')
+    if request.method == 'POST':
+            print("Rendering reconoceRostros.html template")
+            # Renderiza la plantilla reconoceRostros.html
+            return render(request,cedula, nombre, apellido, photo_path, count, 'reconoceRostros.html')
 
 
 
