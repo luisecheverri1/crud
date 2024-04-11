@@ -129,7 +129,10 @@ def entrenandoRF(request,nombre ,apellido, cedula, photo_path, count):
     print("Entering entrenandoRF view function")
     print("Request method:", request.method)
     print("POST data:", request.POST)
-
+    print(f"cedula: {cedula}")
+    print(f"nombre: {nombre}")
+    print(f"apellido: {apellido}")
+    print(f"photo_path: {photo_path}")
     if request.method == 'POST':
   
         print("HTTP method is POST")
@@ -160,19 +163,17 @@ def entrenandoRF_exitoso(request,nombre ,apellido, cedula, photo_path, count):
     print("About to return HTTP response with message 'Entrenamiento exitoso'")
     
     if request.method == 'POST':
-       pass 
-    else:
-        # Añade una respuesta para el caso GET
-        return HttpResponse('Esta vista solo acepta peticiones POST.')    
         # Debugging statement: Print the current date and time
-    import datetime
-    print("Current date and time:", datetime.datetime.now())
+        import datetime
+        print("Current date and time:", datetime.datetime.now())
 
-    # Debugging statement: Print the contents of the request object
-    print("Request object contents:")
-    for key, value in request.__dict__.copy().items():
-        print("\t", key, ":", value)
-
+        # Debugging statement: Print the contents of the request object
+        print("Request object contents:")
+        for key, value in request.__dict__.copy().items():
+            print("\t", key, ":", value)
+    else:
+            # Añade una respuesta para el caso GET
+            return HttpResponse('Esta vista solo acepta peticiones POST.')   
     # Return the HTTP response{% url 'entrenandoRF' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path %}
     print("Returning HTTP response with message 'Entrenamiento exitoso'")
     
