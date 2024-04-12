@@ -7,7 +7,7 @@ import cv2
 
 data_path = "C:/xampp/htdocs/crud-1/biometrikAssProject/data"
 
-def capturar_rostros3(cedula, nombre, apellido,count,count_limit=30):
+def capturar_rostros3(cedula, nombre, apellido,photo_path, person_folder_path,count,count_limit=30):
    
     person_folder_path = os.path.join(data_path, cedula)
 

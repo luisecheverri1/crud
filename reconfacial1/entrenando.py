@@ -1,10 +1,13 @@
+from django.shortcuts import render
 import numpy as np
 import cv2
 import os
 from django.http import HttpResponse
 import urllib.parse
 
-def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path):
+def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path,count):
+    print("Iniciando la función de entrenando...")
+    
     data_path = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data'
     print(f"data_path: {data_path}")  # Imprimir data_path
 
@@ -39,7 +42,7 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
         # Inicializar la lista de los dos últimos directorios de personas
         last_two_people_dirs = []
 
-      # Recorrer los directorios en orden de modificación
+    # Recorrer los directorios en orden de modificación
         for person_dir in people_dirs:
             # Verificar si el directorio contiene al menos una imagen de rostro
             if any(os.path.isfile(os.path.join(person_dir, nombre, apellido, f'rostro_{i}.jpg')) for i in range(30)):
@@ -115,8 +118,9 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
         # Escribir el modelo entrenado en el archivo XML
         face_recognizer.write(model_path)
         print(f"Modelo entrenado almacenado en {model_path}")
-
-        return HttpResponse("Training process completed successfully")  # Example response
-    else:
-        # Handle GET requests or other cases if needed
-        return HttpResponse("Method not allowed", status=405)  # Example response for other cases
+        print("Saliendo de la función de entrenando...hacia entrenandoRF")
+        return HttpResponse("Training process completed successfully")  # Example response    
+    else:  
+        print("Rendering entrenandoRF.html template")
+        return (request,cedula, nombre, apellido, photo_path,person_folder_path, count)
+        

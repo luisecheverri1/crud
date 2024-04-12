@@ -1,4 +1,4 @@
-<!-- capturar_rostros_exitoso.html -->
+<!-- reconoceRostros.html -->
 
 <!DOCTYPE html>
 <html lang="es">
@@ -62,12 +62,13 @@
         <!-- Botón para capturar rostros -->
         
       <!-- Botón para ENTRENAR -->
-      <form method="post" action="{% url 'reconfacial1:reconocer' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path count=count %}">
+      <form method="post" action="{% url 'reconfacial1:reconocer' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path person_folder_path=person_folder_path count=count %}">
         {% csrf_token %}
         <input type="hidden" name="cedula" value="{{ cedula }}">
         <input type="hidden" name="nombre" value="{{ nombre }}">
         <input type="hidden" name="apellido" value="{{ apellido }}">
         <input type="hidden" name="photo_path" value="{{ photo_path }}">
+        <input type="hidden" name="person_folder_path" value="{{ person_folder_path }}">
         <button type="submit" class="btn btn-primary mb-3">RECONOCER</button>
       </form>
       <!-- Botón para RECONOCER rostros -->

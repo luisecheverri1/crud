@@ -3,7 +3,7 @@ import cv2
 import os
 import threading
 
-def reconocer(request):
+def reconocer_rostros(request):
     def run():
         dataPath = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data'
         imagePaths = os.listdir(dataPath)

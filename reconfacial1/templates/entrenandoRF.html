@@ -1,16 +1,101 @@
-<!-- c:/xampp/htdocs/crud-1/reconfacial1/templates/entrenandoRF.html -->
-<h1>ENTRENANDO ROSTROS.HTML</h1>
+<!-- entrenandoRF.html -->
 
-<form method="POST">
-  {% csrf_token %}
-  <label for="cedula">Cédula:</label>
-  <input type="text" name="cedula" id="cedula" required>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Captura de Rostros</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Tu estilo personalizado -->
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* Evitar que el contenido se desplace debajo de la barra de Windows */
+  }
+
+  .container-full-height {
+      height: calc(100% - 60px); /* Reducir la altura para acomodar las barras de Windows */
+      display: flex;
+  }
+
+  .sidebar {
+      width: 20%; /* Ancho del sidebar */
+      padding: 20px;
+      background-color: #f8f9fa; /* Color de fondo del sidebar */
+      border-radius: 10px; /* Borde redondeado */
+      overflow-y: auto; /* Permitir desplazamiento vertical si el contenido es demasiado largo */
+  } 
   
-  <label for="nombre">Nombre:</label>
-  <input type="text" name="nombre" id="nombre" required>
+  .sidebar a{
+      display: block;
+      margin-bottom: 10px; /* Espacio entre cada enlace */
+  }
+
+  .main-content {
+      flex: 1; /* El contenido principal ocupa todo el espacio disponible */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+  }
+
+  footer {
+      background-color: #333; /* Color de fondo negro */
+      color: #fff; /* Color del texto blanco */
+      padding: 20px 0; /* Relleno superior e inferior */
+      width: 100%;
+      position: absolute; /* Posicionamiento absoluto para el footer */
+      bottom: 0; /* Colocar el footer al final de la pantalla */
+  }
+  </style>
+   
+</head>
+<body>
+  <div class="container-full-height">
+    <div class="sidebar">
+        <h1>ENTRENANDO</h1>
+        <!-- Botón para capturar rostros -->
+        
+      <!-- Botón para ENTRENAR -->
+      <form method="post" action="{% url 'reconfacial1:entrenandoRF' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path person_folder_path=person_folder_path count=count%}">
+        {% csrf_token %}
+        <input type="hidden" name="cedula" value="{{ cedula }}">
+        <input type="hidden" name="nombre" value="{{ nombre }}">
+        <input type="hidden" name="apellido" value="{{ apellido }}">
+        <input type="hidden" name="photo_path" value="{{ photo_path }}">
+        <input type="hidden" name="person_folder_path" value="{{ person_folder_path }}">
+        <button type="submit" class="btn btn-primary mb-3"></button>
+      </form>
+      <!-- Botón para RECONOCER rostros -->
+      
+     
+        
+    </div>
+    <div class="main-content">
+        <img src="https://images.squarespace-cdn.com/content/v1/60b652484796a564a5707096/c3d60914-0627-4f39-9300-a5becec3fb57/reconocimiento-facial.jpg" alt="Reconocimiento facial" class="img-fluid">
+    </div>
+</div>
+<footer class="text-center">
+    <div class="container">
+        <p>&copy; 2024 BIOMETRIKASS. Todos los derechos reservados.</p>
+    </div>
+</footer>
+    
+   
+      
   
-  <label for="apellido">Apellido:</label>
-  <input type="text" name="apellido" id="apellido" required>
-  
-  <input type="submit" value="Submit">
-</form>
+  <!-- jQuery y Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Tu script personalizado -->
+  <script>
+    // Agrega tu script personalizado aquí
+  </script>
+</body>
+</html>
