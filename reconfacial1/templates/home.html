@@ -85,18 +85,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Tu script personalizado -->
     <script>
-        document.getElementById("borrar-datos").addEventListener("click", function(event) {
-            event.preventDefault(); // Prevenir el comportamiento predeterminado del enlace
-
-            // Mostrar un mensaje de confirmación
-            if (confirm("¿Está seguro de que desea borrar los datos XML? Esta acción es irreversible.")) {
-                // Si el usuario confirma, redirigir al enlace original
-                window.location.href = this.getAttribute("href");
-            } else {
-                // Si el usuario cancela, no hacer nada
-                return;
-            }
-        });
+     
     </script>
 </body>
 </html>

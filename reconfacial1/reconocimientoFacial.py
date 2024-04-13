@@ -31,9 +31,10 @@ def reconocer_rostros(request):
                 result = face_recognizer.predict(rostro)
 
                 cv2.putText(frame,'{}'.format(result),(x,y-5),1,1.3,(255,255,0),1,cv2.LINE_AA)
-
+                
                 if result[1] < 1700:
                     cv2.putText(frame,'{}'.format(imagePaths[result[0]]),(x,y-25),2,1.1,(0,255,0),1,cv2.LINE_AA)
+                    #print('Nombre de la persona: {}'.format(imagePaths[result[0]]))
                     cv2.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
                 else:
                     cv2.putText(frame,'Desconocido',(x,y-20),2,0.8,(0,0,255),1,cv2.LINE_AA)
