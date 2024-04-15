@@ -42,5 +42,8 @@ urlpatterns = [
     path('entrenandoRF_exitoso/<int:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<path:person_folder_path>/<int:count>/', views.entrenandoRF_exitoso, name='entrenandoRF_exitoso'),
 
     # Recognize faces
-    path('reconocer/<int:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<path:person_folder_path>/<int:count>/', views.reconocer, name='reconocer'),
+    #path('reconocer/<int:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<path:person_folder_path>/<int:count>/', views.reconocer, name='reconocer'),
+    
+    # Recognize faces
+    path('reconocer/', views.reconocer, name='reconocer'),
 ]

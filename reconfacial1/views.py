@@ -131,9 +131,15 @@ def entrenandoRF_exitoso( request, cedula, nombre, apellido, photo_path,person_f
 
 
 
-def reconocer(request, cedula, nombre, apellido, photo_path,person_folder_path, count):
+#def reconocer(request, cedula, nombre, apellido, photo_path,person_folder_path, count):
     """Recognize faces."""
     reconocer_rostros(request)  # Llama a la función de reconocimiento facial
       
     return render(request, 'reconoceRostros.html', {'cedula': cedula, 'nombre': nombre, 'apellido': apellido,
     'photo_path': photo_path, 'person_folder_path': person_folder_path, 'count': count})
+
+
+def reconocer(request):
+    """Recognize faces."""
+    reconocer_rostros(request)  # Llama a la función de reconocimiento facial
+    return render(request, 'reconoceRostros.html')

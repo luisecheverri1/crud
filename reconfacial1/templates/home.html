@@ -58,16 +58,21 @@
     <div class="container-full-height">
         <div class="sidebar">
             <h1>BIOMETRIKASS</h1>
+
             <!-- Botón para capturar rostros -->
             <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary mb-3">Crear Persona</button>
             </form>
-          <!-- Botón para ENTRENAR -->
+            
+            <!-- Botón para ENTRENAR -->
         
             <!-- Botón para RECONOCER rostros -->
-            
+            <form method="post" action="{% url 'reconfacial1:reconocer' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary mb-3">Reconocer rostros</button>
             </form>
+            
             
         </div>
         <div class="main-content">

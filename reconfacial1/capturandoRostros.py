@@ -29,13 +29,16 @@ def capturar_rostros3(cedula, nombre, apellido,photo_path, person_folder_path,co
         print("¡Cámara abierta correctamente!")
 
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-   
-    
-    cv2.namedWindow('Captura de rostros', cv2.WINDOW_NORMAL)  # Crear una ventana con tamaño ajustable
-    cv2.setWindowProperty('Captura de rostros', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)  # Maximizar la ventana
 
-    
-    
+    ret, frame = cap.read()  # Capturar el frame actual de la cámara
+    if ret:  # Si se capturó el frame correctamente...
+
+        #Crear ventana con tamano ajustable
+        cv2.namedWindow('Captura de rostros', cv2.WINDOW_NORMAL)  
+
+        #Mostrar el frame
+        cv2.imshow('Captura de rostros', frame)
+ 
     while count < count_limit:
         ret, frame = cap.read()
         if not ret:
@@ -43,6 +46,12 @@ def capturar_rostros3(cedula, nombre, apellido,photo_path, person_folder_path,co
             break
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+        # Establecer el tamaño de la ventana
+        cv2.resizeWindow('Captura de rostros', 800, 600) 
+
+        # Mover la ventana a una ubicación específica
+        cv2.moveWindow('Captura de rostros', 100, 100)  # Mueve la ventana a la posición (x, y) = (100, 100)
 
         if len(faces) == 0:
             print("No se detectaron rostros en el fotograma.")
@@ -64,8 +73,8 @@ def capturar_rostros3(cedula, nombre, apellido,photo_path, person_folder_path,co
             if count >= count_limit:
                 break
 
-        cv2.imshow('Captura de rostros', frame)
-        cv2.resizeWindow('Captura de rostros', 800, 600)  # Ajusta el tamaño de la ventana
+        
+        #cv2.resizeWindow('Captura de rostros', 800, 600)  # Ajusta el tamaño de la ventana
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
@@ -76,10 +85,3 @@ def capturar_rostros3(cedula, nombre, apellido,photo_path, person_folder_path,co
     #photo_path = "algún valor"
     return (cedula,nombre,apellido,photo_path,person_folder_path,count)
 
-# Ejemplo de cómo llamar y utilizar la función capturar_rostros3
-if __name__ == "__main__":
-    cedula = "123456789"
-    nombre = "Juan"
-    apellido = "Perez"
-    resultado_captura = capturar_rostros3(cedula, nombre, apellido)
-    print("Resultado de la captura:", resultado_captura)
