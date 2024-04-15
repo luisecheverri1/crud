@@ -9,6 +9,12 @@ def reconocer_rostros(request):
         imagePaths = os.listdir(dataPath)
         print('imagePaths=',imagePaths)
 
+        # Obtener la lista de directorios en data_path
+        people_dirs = [os.path.join(dataPath, d) for d in os.listdir(dataPath) if os.path.isdir(os.path.join(dataPath, d))]
+
+        # Extraer los nombres de las personas de los nombres de los directorios
+        nombres_apellidos = [os.path.basename(d) for d in people_dirs]
+        print(f"nombres_apellidos: {nombres_apellidos}")  # Imprimir nombres_apellidos
         face_recognizer = cv2.face.FisherFaceRecognizer_create()
         face_recognizer.read('modeloFisherFace.xml')
 
@@ -19,7 +25,7 @@ def reconocer_rostros(request):
 
         while True:
             ret,frame = cap.read()
-            if ret == False: break
+            if ret == False: break    
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             auxFrame = gray.copy()
 
@@ -33,9 +39,10 @@ def reconocer_rostros(request):
                 cv2.putText(frame,'{}'.format(result),(x,y-5),1,1.3,(255,255,0),1,cv2.LINE_AA)
                 
                 if result[1] < 1700:
-                    cv2.putText(frame,'{}'.format(imagePaths[result[0]]),(x,y-25),2,1.1,(0,255,0),1,cv2.LINE_AA)
-                    print('Nombre de la persona: {}'.format(imagePaths[result[0]]))
-                    
+                    cedula = result[0]
+                    nombre, apellido = nombres_apellidos[cedula]
+                    cv2.putText(frame,'Cedula: {}'.format(cedula),(x,y-45),2,1.1,(0,255,0),1,cv2.LINE_AA)
+                    cv2.putText(frame,'{} {}'.format(nombre, apellido),(x,y-25),2,1.1,(0,255,0),1,cv2.LINE_AA)
                     cv2.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
                 else:
                     cv2.putText(frame,'Desconocido',(x,y-20),2,0.8,(0,0,255),1,cv2.LINE_AA)
