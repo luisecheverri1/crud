@@ -31,7 +31,7 @@ def reconocer_rostros(request):
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             auxFrame = gray.copy()
             
-            time.sleep(1.5)  # Pausar durante 1.5 segundos
+            time.sleep(0.001)  # Pausar durante  segundos
 
             faces = faceClassif.detectMultiScale(gray,1.3,5)
             print(f"faces: {faces}")  # Imprimir las caras detectadas
@@ -44,10 +44,17 @@ def reconocer_rostros(request):
 
                 if result[1] < 1700:
                     cedula = result[0]
-                    nombre, apellido = nombres_apellidos[cedula]
+                    nombre_apellido = nombres_apellidos[cedula]
+                    if isinstance(nombre_apellido, (list, tuple)) and len(nombre_apellido) == 2:
+                        nombre, apellido = nombre_apellido
+                    else:
+                        nombre = nombre_apellido
+                        apellido = ''  # o cualquier valor predeterminado
+
                     print(f"Reconocido: {nombre} - {apellido}")  # Imprimir el nombre y apellido reconocidos
+                                        
                     cv2.putText(frame,'Cedula: {}'.format(cedula),(x,y-45),2,1.1,(0,255,0),1,cv2.LINE_AA)
-                    cv2.putText(frame,'{} {}'.format(nombre, apellido),(x,y-25),2,1.1,(0,255,0),1,cv2.LINE_AA)
+                    #cv2.putText(frame,'{} {}'.format(nombre, apellido),(x,y-25),2,1.1,(0,255,0),1,cv2.LINE_AA)
                     cv2.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
                 else:
                     print("Desconocido")  # Imprimir cuando un rostro es desconocido
