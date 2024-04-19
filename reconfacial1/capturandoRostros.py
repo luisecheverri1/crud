@@ -30,11 +30,11 @@ def capturar_rostros3(cedula, nombre, apellido,photo_path, person_folder_path,co
 
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
+    #Crear ventana con tamano ajustable
+    cv2.namedWindow('Captura de rostros', cv2.WINDOW_NORMAL)  
+
     ret, frame = cap.read()  # Capturar el frame actual de la cámara
     if ret:  # Si se capturó el frame correctamente...
-
-        #Crear ventana con tamano ajustable
-        cv2.namedWindow('Captura de rostros', cv2.WINDOW_NORMAL)  
 
         #Mostrar el frame
         cv2.imshow('Captura de rostros', frame)
