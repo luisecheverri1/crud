@@ -1,9 +1,10 @@
-from django.shortcuts import render
-import numpy as np
-import cv2
 import os
+import urllib
+
+import cv2
 from django.http import HttpResponse
-import urllib.parse
+import numpy as np
+
 
 def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path,count):
     print("Iniciando la función de entrenando...")
@@ -39,31 +40,12 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
         # Ordenar los directorios por fecha de modificación
         people_dirs.sort(key=lambda x: os.path.getmtime(x), reverse=True)
 
-        # Inicializar la lista de los dos últimos directorios de personas
-        last_two_people_dirs = []
-
-    # Recorrer los directorios en orden de modificación
-        for person_dir in people_dirs:
-            # Verificar si el directorio contiene al menos una imagen de rostro
-            if any(os.path.isfile(os.path.join(person_dir, nombre, apellido, f'rostro_{i}.jpg')) for i in range(30)):
-                # Añadir el directorio a la lista
-                last_two_people_dirs.append(person_dir)
-
-                # Si ya se han añadido dos directorios, salir del bucle
-                if len(last_two_people_dirs) == 2:
-                    break
-
-        # Verificar que se encontraron dos directorios
-        if len(last_two_people_dirs) != 2:
-            print("Error: No se encontraron dos directorios con imágenes de rostros.")
-            return
-
         # Agregar nombre y apellido a cada directorio de cédula
-        last_two_people_dirs = [os.path.join(dir, nombre, apellido) for dir in last_two_people_dirs]
+        people_dirs = [os.path.join(dir, nombre, apellido) for dir in people_dirs]
 
-        print(f"last_two_people_dirs: {last_two_people_dirs}")  # Imprimir last_two_people_dirs
+        print(f"people_dirs: {people_dirs}")  # Imprimir people_dirs
         
-        for person_dir in last_two_people_dirs:
+        for person_dir in people_dirs:
             # Obtener las partes de la ruta del directorio
             path_parts = os.path.normpath(person_dir).split(os.sep)
             print(f"path_parts: {path_parts}")  # Imprimir path_parts

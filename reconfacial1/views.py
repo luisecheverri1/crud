@@ -127,7 +127,7 @@ def entrenandoRF_exitoso( request, cedula, nombre, apellido, photo_path,person_f
     print("cedula:", cedula)
     print("photo_path:", photo_path)
     print("count:", count)
-    return redirect('reconfacial1:reconocer', cedula=cedula, nombre=nombre, apellido=apellido, photo_path=photo_path, person_folder_path=person_folder_path, count=count)
+    return redirect('reconfacial1:reconocer')
 
 
 
