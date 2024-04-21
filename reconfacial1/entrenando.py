@@ -40,46 +40,53 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
         # Ordenar los directorios por fecha de modificación
         people_dirs.sort(key=lambda x: os.path.getmtime(x), reverse=True)
 
-        # Agregar nombre y apellido a cada directorio de cédula
-        people_dirs = [os.path.join(dir, nombre, apellido) for dir in people_dirs]
-
         print(f"people_dirs: {people_dirs}")  # Imprimir people_dirs
         
         for person_dir in people_dirs:
-            # Obtener las partes de la ruta del directorio
-            path_parts = os.path.normpath(person_dir).split(os.sep)
-            print(f"path_parts: {path_parts}")  # Imprimir path_parts
+            # Obtener la lista de subdirectorios en person_dir
+            subdirs = [os.path.join(person_dir, sd) for sd in os.listdir(person_dir) if os.path.isdir(os.path.join(person_dir, sd))]
 
-            # Asegurarse de que la ruta del directorio tiene al menos cuatro partes
-            if len(path_parts) < 4:
-                print(f"La ruta del directorio {person_dir} no tiene suficientes partes. Saltando este directorio.")
-                continue
+            # Recorrer cada subdirectorio
+            for subdir in subdirs:
+                # Obtener la lista de sub-subdirectorios en subdir
+                subsubdirs = [os.path.join(subdir, ssd) for ssd in os.listdir(subdir) if os.path.isdir(os.path.join(subdir, ssd))]
 
-            # Desempaquetar las partes de la ruta del directorio
-            _, cedula, nombre, apellido = path_parts[-4:]
+                # Recorrer cada sub-subdirectorio
+                for subsubdir in subsubdirs:
+                    # Obtener las partes de la ruta del directorio
+                    path_parts = os.path.normpath(subsubdir).split(os.sep)
+                    print(f"path_parts: {path_parts}")  # Imprimir path_parts
 
-            print(f"person_dir: {person_dir}")  # Imprimir person_dir
+                    # Asegurarse de que la ruta del directorio tiene al menos cinco partes
+                    if len(path_parts) < 5:
+                        print(f"La ruta del directorio {subsubdir} no tiene suficientes partes. Saltando este directorio.")
+                        continue
 
-            for count in range(30):
-                photo_path = os.path.join(person_dir, f'rostro_{count}.jpg')
-                print(f"photo_path: {photo_path}")  # Imprimir image_path
+                    # Desempaquetar las partes de la ruta del directorio
+                    _, _, cedula, nombre, apellido = path_parts[-5:]
 
-                if not os.path.isfile(photo_path):
-                    print(f"El archivo no existe: {photo_path}")
-                    continue
+                    print(f"subsubdir: {subsubdir}")  # Imprimir subsubdir
 
-                image = cv2.imread(photo_path, cv2.IMREAD_GRAYSCALE)
-                if image is None:
-                    print(f"Error: No se pudo leer la imagen {photo_path}")
-                    continue
+                    for count in range(30):
+                        photo_path = os.path.join(subsubdir, f'rostro_{count}.jpg')
+                        print(f"photo_path: {photo_path}")  # Imprimir image_path
 
-                print(f"Dimensiones de la imagen: {image.shape}")
-                print(f"Tipo de datos de la imagen: {image.dtype}")
+                        if not os.path.isfile(photo_path):
+                            print(f"El archivo no existe: {photo_path}")
+                            continue
 
-                faces_data.append(image)
-                labels.append(label)
+                        image = cv2.imread(photo_path, cv2.IMREAD_GRAYSCALE)
+                        if image is None:
+                            print(f"Error: No se pudo leer la imagen {photo_path}")
+                            continue
 
-            label += 1
+                        print(f"Dimensiones de la imagen: {image.shape}")
+                        print(f"Tipo de datos de la imagen: {image.dtype}")
+
+                        faces_data.append(image)
+                        labels.append(label)
+
+                    label += 1
 
         # Verificar que haya al menos una muestra de cada persona
         if len(labels) < 2 or len(faces_data) < 2:
@@ -105,4 +112,3 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
     else:  
         print("Rendering entrenandoRF.html template")
         return (request,cedula, nombre, apellido, photo_path,person_folder_path, count)
-        

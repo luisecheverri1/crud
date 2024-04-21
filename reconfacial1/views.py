@@ -1,5 +1,4 @@
 
-
 # Standard library imports
 from urllib import request
 from urllib.parse import quote
@@ -69,7 +68,7 @@ def capturar_rostros_exitoso(request, cedula, nombre, apellido, photo_path, pers
         print(f"Form is valid: {form.is_valid()}")
         if form.is_valid():
             print("Calling entrenando()")
-            entrenando()
+            entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path, count)
             print("Redirecting to entrenandoRF")
             return HttpResponseRedirect(reverse('entrenandoRF', args=(nombre, apellido, cedula, photo_path,
                                                                      person_folder_path, count)))
@@ -101,7 +100,7 @@ def entrenandoRF(request, cedula, nombre, apellido, photo_path, person_folder_pa
 
             # Call the 'entrenando' function with the form data
             print("Calling entrenando function")
-            entrenando(request, cedula, nombre, apellido, photo_path,person_folder_path, count)
+            entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path, count)
 
             print("Redirecting to entrenandoRF_exitoso")
             return redirect('reconfacial1:entrenandoRF_exitoso', cedula=cedula, nombre=nombre, apellido=apellido,
@@ -118,25 +117,16 @@ def entrenandoRF(request, cedula, nombre, apellido, photo_path, person_folder_pa
     return render(request, 'entrenandoRF.html', {'form': form})
 
 
-def entrenandoRF_exitoso( request, cedula, nombre, apellido, photo_path,person_folder_path, count):
+def entrenandoRF_exitoso(request, cedula, nombre, apellido, photo_path, person_folder_path, count):
     """Handle the form after training the facial recognition model."""
-    
     print("HTTP method is POST")
     print("nombre:", nombre)
     print("apellido:", apellido)
     print("cedula:", cedula)
     print("photo_path:", photo_path)
     print("count:", count)
-    return redirect('reconfacial1:reconocer')
-
-
-
-#def reconocer(request, cedula, nombre, apellido, photo_path,person_folder_path, count):
-    """Recognize faces."""
-    reconocer_rostros(request)  # Llama a la función de reconocimiento facial
-      
-    return render(request, 'reconoceRostros.html', {'cedula': cedula, 'nombre': nombre, 'apellido': apellido,
-    'photo_path': photo_path, 'person_folder_path': person_folder_path, 'count': count})
+    return render(request, 'entrenamiento_exitoso.html', {'cedula': cedula, 'nombre': nombre, 'apellido': apellido,
+                                                          'photo_path': photo_path, 'person_folder_path': person_folder_path, 'count': count})
 
 
 def reconocer(request):

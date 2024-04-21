@@ -69,7 +69,7 @@ def capturar_rostros3(cedula, nombre, apellido,photo_path, person_folder_path,co
                 cv2.imwrite(photo_path, face_roi_resized)
                 print(f"Rostro capturado y guardado en: {photo_path}")
                 count += 1
-
+                print(f"Contador de rostros incrementado a: {count}")  # Imprimir el valor de count después de cada incremento
             if count >= count_limit:
                 break
 
