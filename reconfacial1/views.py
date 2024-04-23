@@ -33,12 +33,14 @@ def capturar_rostros(request):
     if request.method == 'POST':
         form = PersonaForm(request.POST)
         if form.is_valid():
+            data_path = "C:/xampp/htdocs/crud-1/biometrikAssProject/data"
             cedula = form.cleaned_data['cedula']
             nombre = form.cleaned_data['nombre']
             apellido = form.cleaned_data['apellido']
             count = 0  # Initialize count
             photo_path = ""  # Initialize photo_path
             person_folder_path = ""  # Initialize person_folder_path
+            os.makedirs(data_path, exist_ok=True)# Crear el directorio data_path si no existe
             cedula, nombre, apellido, photo_path, person_folder_path, count = capturar_rostros3(
                 cedula, nombre, apellido, photo_path, person_folder_path, count)
 

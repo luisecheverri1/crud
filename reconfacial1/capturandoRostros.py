@@ -1,5 +1,3 @@
-
-
 import os
 import shutil
 import time
@@ -8,23 +6,17 @@ import cv2
 data_path = "C:/xampp/htdocs/crud-1/biometrikAssProject/data"
 
 def capturar_rostros3(cedula, nombre, apellido,photo_path, person_folder_path,count,count_limit=30):
-   
-    person_folder_path = os.path.join(data_path, cedula)
-
-    if os.path.exists(person_folder_path):
-        print(f"La carpeta para la cédula {cedula} ya existe. Sobrescribiendo los datos...")
-        shutil.rmtree(person_folder_path)
     person_folder_path = os.path.join(data_path, cedula, nombre, apellido)
     os.makedirs(person_folder_path)
 
-    cap = cv2.VideoCapture(0)# Prueba con índice 0  
+    cap = cv2.VideoCapture(0)  # Prueba con índice 0  
     if not cap.isOpened():
         cap = cv2.VideoCapture(1)  # Si no funciona, prueba con índice 1
         
     if not cap.isOpened():
         print("Error: No se puede abrir la cámara.Esperando...")
         time.sleep(2)
-        return capturar_rostros3( cedula, nombre, apellido,count)   
+        return capturar_rostros3(cedula, nombre, apellido,count)   
     else:
         print("¡Cámara abierta correctamente!")
 
@@ -35,7 +27,6 @@ def capturar_rostros3(cedula, nombre, apellido,photo_path, person_folder_path,co
 
     ret, frame = cap.read()  # Capturar el frame actual de la cámara
     if ret:  # Si se capturó el frame correctamente...
-
         #Mostrar el frame
         cv2.imshow('Captura de rostros', frame)
  

@@ -96,46 +96,52 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <!-- Tu script personalizado -->
   <!-- Tu script personalizado -->
-<script>
-  // Obtener el elemento de video
-  const video = document.getElementById('video');
-
-  // Obtener acceso a la cámara
-  let stream;
-
-  navigator.mediaDevices.getUserMedia({ video: true })
-      .then(mediaStream => {
-          // Asignar la transmisión de la cámara al elemento de video
-          video.srcObject = mediaStream;
-          stream = mediaStream;
-      })
-      .catch(error => {
-          console.error('Error al acceder a la cámara:', error);
-      });
-
-  // Función para liberar la cámara
-  function liberarCamara() {
-      if (stream) {
-          const tracks = stream.getTracks();
-          tracks.forEach(track => track.stop());
-      }
-  }
-
-  // Función para detener la transmisión de video
-  function detenerVideo() {
-      video.pause();
-      video.srcObject = null; // Detener la transmisión de video
-  }
-
-  // Agregar event listener a todos los botones para liberar la cámara y detener el video
-  const buttons = document.querySelectorAll('button');
-  buttons.forEach(button => {
-      button.addEventListener('click', () => {
-          liberarCamara();
-          detenerVideo();
-      });
-  });
-</script>
+  <script>
+    // Obtener el elemento de video
+    const video = document.getElementById('video');
+  
+    // Obtener acceso a la cámara
+    let stream;
+  
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(mediaStream => {
+            // Asignar la transmisión de la cámara al elemento de video
+            video.srcObject = mediaStream;
+            stream = mediaStream;
+        })
+        .catch(error => {
+            console.error('Error al acceder a la cámara:', error);
+        });
+  
+    // Función para liberar la cámara
+    function liberarCamara() {
+        if (stream) {
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+    }
+  
+    // Función para detener la transmisión de video
+    function detenerVideo() {
+        video.pause();
+        video.srcObject = null; // Detener la transmisión de video
+    }
+  
+    // Agregar event listener a todos los botones para liberar la cámara y detener el video
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            liberarCamara();
+            detenerVideo();
+        });
+    });
+  
+    // Agregar event listener para el evento beforeunload de la ventana
+    window.addEventListener('beforeunload', () => {
+        liberarCamara();
+        detenerVideo();
+    });
+  </script>
 
 </body>
 </html>

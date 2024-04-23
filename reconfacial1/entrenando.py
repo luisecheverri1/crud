@@ -1,3 +1,4 @@
+
 import os
 import urllib
 
@@ -94,7 +95,8 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
             return HttpResponse("Insufficient training data", status=400)  # Example response for insufficient data
 
         # Inicializar el reconocedor de rostros
-        face_recognizer = cv2.face.FisherFaceRecognizer_create()
+        # face_recognizer = cv2.face.FisherFaceRecognizer_create()  # FisherFace
+        face_recognizer = cv2.face.LBPHFaceRecognizer_create()  # LBPH
 
         # Entrenar el reconocedor de rostros con los datos recopilados
         print("Entrenando el reconocedor de rostros...")
@@ -102,7 +104,8 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
         print("Entrenamiento completado.")
         
         # Crear la ruta del archivo XML para guardar el modelo entrenado
-        model_path = os.path.join('C:/xampp/htdocs/crud-1/', 'modeloFisherFace.xml')
+        # model_path = os.path.join('C:/xampp/htdocs/crud-1/', 'modeloFisherFace.xml')  # FisherFace
+        model_path = os.path.join('C:/xampp/htdocs/crud-1/', 'modeloLBPHFace.xml')  # LBPH
         
         # Escribir el modelo entrenado en el archivo XML
         face_recognizer.write(model_path)

@@ -9,10 +9,8 @@ def reconocer_rostros(request):
     imagePaths = os.listdir(dataPath)
     print('imagePaths=',imagePaths)
     
-    # Obtener la lista de directorios en data_path
     people_dirs = [os.path.join(dataPath, d) for d in os.listdir(dataPath) if os.path.isdir(os.path.join(dataPath, d))]
 
-    # Extraer los nombres y apellidos de los directorios
     nombres_apellidos = {}
     for d in people_dirs:
         cedula = os.path.basename(d)
@@ -24,10 +22,10 @@ def reconocer_rostros(request):
                 apellido = os.path.basename(ad)
                 nombres_apellidos[cedula] = (nombre, apellido)
 
-    print(f"nombres_apellidos: {nombres_apellidos}")  # Imprimir nombres_apellidos
+    print(f"nombres_apellidos: {nombres_apellidos}")
 
-    face_recognizer = cv2.face.FisherFaceRecognizer_create()
-    face_recognizer.read('modeloFisherFace.xml')
+    face_recognizer = cv2.face.LBPHFaceRecognizer_create()
+    face_recognizer.read('modeloLBPHFace.xml')
 
     cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
     cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
@@ -35,52 +33,47 @@ def reconocer_rostros(request):
     faceClassif = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
 
     counter = 0
-    cedula_counts = {}  # Diccionario para contar las apariciones de cada cédula
-
- 
+    cedula_counts = {}
 
     while counter < 100:
         ret,frame = cap.read()
+        
         if ret == False: break    
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         auxFrame = gray.copy()
         
-        time.sleep(0.001)  # Pausar durante  segundos
-
+        time.sleep(0.001)
+        
         faces = faceClassif.detectMultiScale(gray,1.3,5)
-        print(f"faces: {faces}")  # Imprimir las caras detectadas
 
         for (x,y,w,h) in faces:
             rostro = auxFrame[y:y+h,x:x+w]
             rostro = cv2.resize(rostro,(150,150),interpolation= cv2.INTER_CUBIC)
             result = face_recognizer.predict(rostro)
-            print(f"result: {result}")  # Imprimir el resultado de la predicción
+
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+            cv2.imshow('frame', frame)
+            cv2.waitKey(1)  # Agregar esta línea  
+
 
             if result[1] < 1700:
-                # Convertir nombres_apellidos en una lista de cédulas
                 cedulas = list(nombres_apellidos.keys())
-
-                # Usar result[0] para indexar la lista de cédulas
                 cedula = cedulas[result[0]]
-                print(f"cedula: {cedula}")  # Imprimir la cédula
-                cedula_counts[cedula] = cedula_counts.get(cedula, 0) + 1  # Incrementar el conteo para esta cédula
+                print(f"cedula: {cedula}")
+                cedula_counts[cedula] = cedula_counts.get(cedula, 0) + 1
 
                 nombre, apellido = nombres_apellidos[cedula]
 
-                print(f"Reconocido: {nombre} {apellido}")  # Imprimir el nombre y apellido reconocidos
+                print(f"Reconocido: {nombre} {apellido}")
 
-                counter += 1  # Incrementar el contador solo si se detecta un rostro
+                counter += 1
 
             if counter >= 100:
                 break
-        
-    # Encontrar la cédula que apareció con más frecuencia
+   
+
     most_common_cedula = max(cedula_counts, key=cedula_counts.get)
-
-    # Buscar el nombre y apellido que corresponden a la cédula más encontrada
     nombre, apellido = nombres_apellidos[most_common_cedula]
-
-    # Obtener el número de veces que se reconoció la cédula más común
     num_recognitions = cedula_counts[most_common_cedula]
 
     print(f"CEDULA MAS COMUN: {most_common_cedula}")
