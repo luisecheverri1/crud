@@ -5,7 +5,7 @@ from urllib.parse import quote
 import os
 
 # Third party imports
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
@@ -13,20 +13,21 @@ from django.urls import reverse
 from .capturandoRostros import capturar_rostros3
 from .entrenando import entrenando
 from .reconocimientoFacial import reconocer_rostros
-from reconfacial1.models import Persona
-from reconfacial1.forms import PersonaForm
+from .models import Persona
+from .forms import PersonaForm
 
 # Constants
 DATA_PATH = 'C:/xampp/htdocs/crud/biometrikAssProject/data'
 
-
 def home(request):
-    """Render the home page."""
-    print("Entering the home view function")
-    response = render(request, 'home.html')
-    print("Leaving the home view function")
-    return response
-
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        cedula = request.POST.get('cedula')
+        if action == 'actualizar_persona':
+            return redirect('reconfacial1:actualizar_persona', cedula=cedula)
+        elif action == 'eliminar_persona':
+            return redirect('reconfacial1:eliminar_persona', cedula=cedula)
+    return render(request, 'home.html')
 
 def capturar_rostros(request):
     """Handle the form for capturing faces."""
@@ -135,3 +136,45 @@ def reconocer(request):
     """Recognize faces."""
     reconocer_rostros(request)  # Llama a la función de reconocimiento facial
     return render(request, 'reconoceRostros.html')
+
+
+def persona_list(request):
+    personas = Persona.objects.all()
+    return render(request, 'persona_list.html', {'personas': personas})
+
+
+def persona_new(request):
+    if request.method == "POST":
+        form = PersonaForm(request.POST)
+        if form.is_valid():
+            persona = form.save()
+            return redirect('persona_detail', pk=persona.pk)
+    else:
+        form = PersonaForm()
+    return render(request, 'persona_edit.html', {'form': form})
+
+# Read
+def leer_persona(request, cedula):
+    persona = get_object_or_404(Persona, cedula=cedula)
+    return render(request, 'persona_detail.html', {'persona': persona})
+
+# Update
+def actualizar_persona(request, cedula):
+    cedula = request.GET.get('cedula')
+    #persona = get_object_or_404(Persona, cedula=cedula)
+    if request.method == "POST":
+        form = PersonaForm(request.POST, instance=persona)
+        if form.is_valid():
+            persona = form.save()
+            return redirect('leer_persona', cedula=persona.cedula)
+    else:
+        form = PersonaForm(instance=persona)
+    return render(request, 'persona_edit.html', {'form': form})
+
+# Delete
+def eliminar_persona(request, cedula):
+    persona = get_object_or_404(Persona, cedula=cedula)
+    if request.method == 'POST':
+        persona.delete()
+        return redirect('reconfacial1:persona_list')
+    return render(request, 'persona_confirm_delete.html', {'persona': persona})

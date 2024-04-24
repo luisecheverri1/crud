@@ -27,7 +27,7 @@ urlpatterns = [
     # Home page
     path('', views.home, name='home'),
 
-    # Capture faces
+    # Capture faces CREATE
     path('capturar_rostros/', views.capturar_rostros, name='capturar_rostros'),
 
     # Capture faces successful
@@ -42,8 +42,17 @@ urlpatterns = [
     path('entrenandoRF_exitoso/<int:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<path:person_folder_path>/<int:count>/', views.entrenandoRF_exitoso, name='entrenandoRF_exitoso'),
 
     # Recognize faces
-    #path('reconocer/<int:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<path:person_folder_path>/<int:count>/', views.reconocer, name='reconocer'),
-    
-    # Recognize faces
     path('reconocer/', views.reconocer, name='reconocer'),
+
+    # Read person
+    path('leer_persona/<int:cedula>/', views.leer_persona, name='leer_persona'),
+
+    # Update person
+    path('actualizar_persona/<int:cedula>/', views.actualizar_persona, name='actualizar_persona'),
+
+    # Delete person
+    path('eliminar_persona/<int:cedula>/', views.eliminar_persona, name='eliminar_persona'),
+
+    # Persona list
+    path('persona_list/', views.persona_list, name='persona_list'),
 ]
