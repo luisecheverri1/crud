@@ -86,6 +86,9 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
 
                         faces_data.append(image)
                         labels.append(label)
+                        
+                        print(f"faces_data: {faces_data}")  # Imprimir faces_data
+                        print(f"labels: {labels}")  # Imprimir labels
 
                     label += 1
 

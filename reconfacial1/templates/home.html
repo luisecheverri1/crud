@@ -58,7 +58,6 @@
     <div class="container-full-height">
         <div class="sidebar">
             <h1>BIOMETRIKASS</h1>
-
             <!-- Botón para RECONOCER rostros -->
             <form method="post" action="{% url 'reconfacial1:reconocer' %}">
                 {% csrf_token %}
@@ -113,8 +112,6 @@
                     }
                 });
             </script>
-                        
-            
         </div>
         <div class="main-content">
             <img src="https://images.squarespace-cdn.com/content/v1/60b652484796a564a5707096/c3d60914-0627-4f39-9300-a5becec3fb57/reconocimiento-facial.jpg" alt="Reconocimiento facial" class="img-fluid">
