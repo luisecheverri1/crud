@@ -6,3 +6,8 @@ class PersonaForm(forms.ModelForm):
     class Meta:
             model = Persona
             fields = ['cedula', 'nombre', 'apellido',]
+            error_messages = {
+            'cedula': {
+                'unique': "La persona con la CEDULA introducida, YA EXISTE en la base de datos.",
+            },
+        }

@@ -59,13 +59,13 @@
         <div class="sidebar">
             <h1>BIOMETRIKASS</h1>
             <!-- Botón para RECONOCER rostros -->
-            <form method="post" action="{% url 'reconfacial1:reconocer' %}">
+            <form method="post" action="{% url 'reconfacial1:reconocerhtml' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary mb-3">Reconocer rostros</button>
+                <button type="submit" class="btn btn-primary mb-3">Personal</button>
             </form>
 
             <!-- Botón de administrador -->
-            <button id="admin-button" class="btn btn-danger mb-3">Administrar</button>
+            <button id="admin-button" class="btn btn-danger mb-3">Administrador</button>
 
             <!-- Formulario de administrador oculto -->
             <div id="admin-form" style="display: none;">

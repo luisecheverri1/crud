@@ -39,10 +39,19 @@ urlpatterns = [
         views.entrenandoRF, name='entrenandoRF'),
 
     # Train facial recognition model successful
-    path('entrenandoRF_exitoso/<int:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<path:person_folder_path>/<int:count>/', views.entrenandoRF_exitoso, name='entrenandoRF_exitoso'),
+    path('entrenandoRF_exitoso/<int:cedula>/<str:nombre>/<str:apellido>/<path:photo_path>/<path:person_folder_path>/<int:count>/', views.
+    entrenandoRF_exitoso, name='entrenandoRF_exitoso'),
+
+
 
     # Recognize faces
-    path('reconocer/', views.reconocer, name='reconocer'),
+    path('reconocerhtml/', views.reconocerhtml, name='reconocerhtml'),
+    # Recognize faces
+    path('reconocer_rostros/', views.reconocer_rostros, name='reconocer_rostros'),
+    # Recognize faces
+    path('reconociendo/', views.reconociendo, name='reconociendo'),
+    
+
 
     # Read person
     path('leer_persona/<int:cedula>/', views.leer_persona, name='leer_persona'),

@@ -58,14 +58,15 @@
 <body>
   <div class="container-full-height">
     <div class="sidebar">
-        <h1>RECONOCER ROSTROS</h1>
+        <h1>RECONOCER ROSTROS 1</h1>
         <!-- Botón para capturar rostros -->
         
       <!-- Botón para ENTRENAR -->
       
    <!-- Botón para RECONOCER rostros -->
-<form method="post" action="{% url 'reconfacial1:reconocer' %}">
+<form method="post" action="{% url 'reconfacial1:reconociendo' %}">
   {% csrf_token %}
+  <input type="hidden" name="action" value="reconocer_rostros">
   <button type="submit" class="btn btn-primary mb-3">RECONOCER</button>
 </form>
      

@@ -9,12 +9,12 @@ import numpy as np
 
 def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path,count):
     print("Iniciando la función de entrenando...")
-    
+    print ("Count: ", count)
     data_path = 'C:/xampp/htdocs/crud-1/biometrikAssProject/data'
     print(f"data_path: {data_path}")  # Imprimir data_path
 
     if cedula is not None:
-        print("Iniciando el proceso de entrenamiento...")
+        print("yIniciando el proceso de entrenamiento...")
         
         print(f"photo_path antes de decodificar: {photo_path}")  # Imprimir photo_path antes de decodificar
 
@@ -68,7 +68,7 @@ def entrenando(request, cedula, nombre, apellido, photo_path, person_folder_path
 
                     print(f"subsubdir: {subsubdir}")  # Imprimir subsubdir
 
-                    for count in range(30):
+                    for count in range(4):
                         photo_path = os.path.join(subsubdir, f'rostro_{count}.jpg')
                         print(f"photo_path: {photo_path}")  # Imprimir image_path
 

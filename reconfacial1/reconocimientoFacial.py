@@ -1,7 +1,9 @@
 import os
 import cv2
 import time
-from django.http import HttpResponse
+from django.http import HttpResponseServerError, JsonResponse
+from django.shortcuts import redirect
+from django.contrib import messages
 
 def reconocer_rostros(request):
     
@@ -23,6 +25,8 @@ def reconocer_rostros(request):
                 nombres_apellidos[cedula] = (nombre, apellido)
 
     print(f"nombres_apellidos: {nombres_apellidos}")
+
+    
 
     face_recognizer = cv2.face.LBPHFaceRecognizer_create()
     face_recognizer.read('modeloLBPHFace.xml')
@@ -55,10 +59,13 @@ def reconocer_rostros(request):
             cv2.imshow('frame', frame)
             cv2.waitKey(1)  # Agregar esta línea  
 
-
             if result[1] < 1700:
                 cedulas = list(nombres_apellidos.keys())
-                cedula = cedulas[result[0]]
+                try:
+                    cedula = cedulas[result[0]]
+                except IndexError:
+                    return HttpResponseServerError("El índice de resultado está fuera de rango.")
+
                 print(f"cedula: {cedula}")
                 cedula_counts[cedula] = cedula_counts.get(cedula, 0) + 1
 
@@ -82,4 +89,4 @@ def reconocer_rostros(request):
     cap.release()
     cv2.destroyAllWindows()
 
-    return HttpResponse("Face recognition started.")
+    return HttpResponseServerError("Face recognition started.")

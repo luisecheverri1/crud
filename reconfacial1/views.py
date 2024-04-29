@@ -15,6 +15,7 @@ from .entrenando import entrenando
 from .reconocimientoFacial import reconocer_rostros
 from .models import Persona
 from .forms import PersonaForm
+from django.db import IntegrityError
 
 # Constants
 DATA_PATH = 'C:/xampp/htdocs/crud/biometrikAssProject/data'
@@ -34,14 +35,21 @@ def capturar_rostros(request):
     if request.method == 'POST':
         form = PersonaForm(request.POST)
         if form.is_valid():
+            try:
+                form.save()
+            except IntegrityError:
+                form.add_error('cedula', 'La persona con la CEDULA introducida, YA EXISTE en la base de datos.')
+
             data_path = "C:/xampp/htdocs/crud-1/biometrikAssProject/data"
             cedula = form.cleaned_data['cedula']
             nombre = form.cleaned_data['nombre']
             apellido = form.cleaned_data['apellido']
-            count = 0  # Initialize count
-            photo_path = ""  # Initialize photo_path
-            person_folder_path = ""  # Initialize person_folder_path
-            os.makedirs(data_path, exist_ok=True)# Crear el directorio data_path si no existe
+            count = 0
+            photo_path = ""
+            person_folder_path = ""
+            os.makedirs(data_path, exist_ok=True)
+            
+            # Call the 'capturar_rostros3' function
             cedula, nombre, apellido, photo_path, person_folder_path, count = capturar_rostros3(
                 cedula, nombre, apellido, photo_path, person_folder_path, count)
 
@@ -57,6 +65,7 @@ def capturar_rostros(request):
                             photo_path=photo_path, person_folder_path=person_folder_path, count=count )
     else:
         form = PersonaForm()
+
     return render(request, 'capturaRostros.html', {'form': form})
 
 
@@ -99,7 +108,7 @@ def entrenandoRF(request, cedula, nombre, apellido, photo_path, person_folder_pa
         form = PersonaForm(request.POST)
         if form.is_valid():
             print("Form is valid")
-            persona = form.save()
+            #persona = form.save()
 
             # Call the 'entrenando' function with the form data
             print("Calling entrenando function")
@@ -117,7 +126,14 @@ def entrenandoRF(request, cedula, nombre, apellido, photo_path, person_folder_pa
         form = PersonaForm()  # Create a form instance for GET request or form validation errors
 
     print("Rendering entrenandoRF.html template")
-    return render(request, 'entrenandoRF.html', {'form': form})
+    return render(request, 'entrenandoRF.html', {
+        'cedula': cedula,
+        'nombre': nombre,
+        'apellido': apellido,
+        'photo_path': photo_path,
+        'person_folder_path': person_folder_path,
+        'count': count,
+    })
 
 
 def entrenandoRF_exitoso(request, cedula, nombre, apellido, photo_path, person_folder_path, count):
@@ -132,16 +148,24 @@ def entrenandoRF_exitoso(request, cedula, nombre, apellido, photo_path, person_f
                                                           'photo_path': photo_path, 'person_folder_path': person_folder_path, 'count': count})
 
 
-def reconocer(request):
-    """Recognize faces."""
-    reconocer_rostros(request)  # Llama a la función de reconocimiento facial
+def reconocerhtml(request):
     return render(request, 'reconoceRostros.html')
 
+def reconociendo(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'reconocer_rostros':
+            # Renderizar la plantilla 'reconociendo.html' inmediatamente
+            response = render(request, 'reconociendo.html')
+            reconocer_rostros(request)
+            return response
+    return render(request, 'reconociendo.html') 
+            
+    
 
 def persona_list(request):
     personas = Persona.objects.all()
     return render(request, 'persona_list.html', {'personas': personas})
-
 
 def persona_new(request):
     if request.method == "POST":

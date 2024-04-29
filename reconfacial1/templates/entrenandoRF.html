@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Captura de Rostros</title>
+  <title>ENTRENANDO</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- Tu estilo personalizado -->
@@ -62,17 +62,13 @@
         <!-- Botón para capturar rostros -->
         
       <!-- Botón para ENTRENAR -->
-      <form method="post" action="{% url 'reconfacial1:entrenandoRF' cedula=cedula nombre=nombre apellido=apellido photo_path=photo_path person_folder_path=person_folder_path count=count%}">
-        {% csrf_token %}
-        <input type="hidden" name="cedula" value="{{ cedula }}">
-        <input type="hidden" name="nombre" value="{{ nombre }}">
-        <input type="hidden" name="apellido" value="{{ apellido }}">
-        <input type="hidden" name="photo_path" value="{{ photo_path }}">
-        <input type="hidden" name="person_folder_path" value="{{ person_folder_path }}">
-        <button type="submit" class="btn btn-primary mb-3"></button>
-      </form>
+  
       <!-- Botón para RECONOCER rostros -->
-      
+      <!-- Botón para ir a la vista de reconocimiento -->
+      <form method="get" action="{% url 'reconfacial1:reconocer' %}">
+        <button type="submit" class="btn btn-primary">Ir a reconocer</button>
+      </form>
+            
      
         
     </div>
