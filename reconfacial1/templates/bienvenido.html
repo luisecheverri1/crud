@@ -23,12 +23,15 @@
   }
 
   .sidebar {
-      width: 20%; /* Ancho del sidebar */
-      padding: 20px;
-      background-color: #f8f9fa; /* Color de fondo del sidebar */
-      border-radius: 10px; /* Borde redondeado */
-      overflow-y: auto; /* Permitir desplazamiento vertical si el contenido es demasiado largo */
-  } 
+    width: 20%;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    overflow-y: auto;
+    display: flex; /* Hacer que el sidebar sea un contenedor flex */
+    flex-direction: column; /* Organizar los elementos en una columna */
+    justify-content: space-between; /* Separar el contenido en la parte superior e inferior */
+}
   
   .sidebar a{
       display: block;
@@ -87,18 +90,14 @@
 <body>
   <div class="container-full-height">
     <div class="sidebar">
-         <h1>Hola, {{ nombre }} {{ apellido }}!</h1>
+        <div>
+            <h1>Hola, {{ nombre }} {{ apellido }}!</h1>
+            <!-- Botón para capturar rostros -->
+            <!-- Botón para ENTRENAR -->
+            <!-- Botón para RECONOCER rostros -->
+        </div>
         <!--Fecha y hora-->
         <div id="current-datetime"></div>
-
-        <!-- Botón para capturar rostros -->
-        
-      <!-- Botón para ENTRENAR -->
-      
-   <!-- Botón para RECONOCER rostros -->
-
-     
-        
     </div>
     <div class="main-content">
         <img src="https://images.squarespace-cdn.com/content/v1/60b652484796a564a5707096/c3d60914-0627-4f39-9300-a5becec3fb57/reconocimiento-facial.jpg" alt="Reconocimiento facial" class="img-fluid">

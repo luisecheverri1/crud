@@ -12,6 +12,7 @@ import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.views import LoginView
 
 # Local application imports
 from .capturandoRostros import capturar_rostros3
@@ -228,3 +229,6 @@ def eliminar_persona(request, cedula):
         persona.delete()
         return redirect('reconfacial1:persona_list')
     return render(request, 'persona_confirm_delete.html', {'persona': persona})
+
+class MyLoginView(LoginView):
+    template_name = 'home.html'

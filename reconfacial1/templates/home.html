@@ -23,12 +23,16 @@
         }
 
         .sidebar {
-            width: 20%; /* Ancho del sidebar */
+            width: 20%;
             padding: 20px;
-            background-color: #f8f9fa; /* Color de fondo del sidebar */
-            border-radius: 10px; /* Borde redondeado */
-            overflow-y: auto; /* Permitir desplazamiento vertical si el contenido es demasiado largo */
-        } 
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            overflow-y: auto;
+            display: flex; /* Hacer que el sidebar sea un contenedor flex */
+            flex-direction: column; /* Organizar los elementos en una columna */
+            justify-content: space-between; /* Separar el contenido en la parte superior e inferior */
+        }
+  
         
         .sidebar a{
             display: block;
@@ -90,6 +94,12 @@
             <!--Fecha y hora-->
             <div id="current-datetime"></div>
 
+            <!-- Formulario de inicio de sesión -->
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary mb-3">Iniciar sesión</button>
+            </form>
 
             <!-- Botón para RECONOCER rostros -->
             <form method="post" action="{% url 'reconfacial1:reconocerhtml' %}">
@@ -97,6 +107,7 @@
                 <button type="submit" class="btn btn-primary mb-3">Personal</button>
             </form>
 
+            {% if user.is_authenticated %}
             <!-- Botón de administrador -->
             <button id="admin-button" class="btn btn-danger mb-3">Administrador</button>
 
@@ -134,6 +145,8 @@
                     <button type="submit" class="btn btn-primary mb-3">Eliminar Persona</button>
                 </form>
             </div>
+            {% endif %}
+            
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
             <script>
                 document.getElementById('admin-button').addEventListener('click', function() {

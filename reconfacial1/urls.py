@@ -17,6 +17,7 @@ Including another URLconf
 # Standard library imports
 from django.contrib import admin
 from django.urls import path, re_path
+from .views import MyLoginView
 
 # Local application imports
 from reconfacial1 import views
@@ -65,7 +66,9 @@ urlpatterns = [
     # Persona list
     path('persona_list/', views.persona_list, name='persona_list'),
 
-    
-
+    #Bienvenido
     path('bienvenido/<str:nombre>/<str:apellido>/', views.bienvenido, name='bienvenido'),
+
+    # Login
+     path('login/', MyLoginView.as_view(), name='login'),
 ]
