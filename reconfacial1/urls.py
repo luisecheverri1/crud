@@ -65,7 +65,7 @@ urlpatterns = [
     # Persona list
     path('persona_list/', views.persona_list, name='persona_list'),
 
-    path('checking/<str:nombre>/<str:apellido>/', views.checking, name='checking'),
+    
 
     path('bienvenido/<str:nombre>/<str:apellido>/', views.bienvenido, name='bienvenido'),
 ]

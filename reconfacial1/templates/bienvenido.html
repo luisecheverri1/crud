@@ -52,13 +52,45 @@
       position: absolute; /* Posicionamiento absoluto para el footer */
       bottom: 0; /* Colocar el footer al final de la pantalla */
   }
+
+  #current-datetime {
+    font-size: 40px;
+    color: red; /* Hace el texto transparente */
+    font-family: 'Courier New', monospace; /* Fuente monoespaciada para alinear los cuadritos */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #000; /* Fondo negro */
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* Sombra de caja */
+    overflow: hidden; /* Oculta el contenido que excede el tamaño del contenedor */
+}
+
+#current-datetime::before {
+    content: '█'; /* Utiliza el carácter cuadrado lleno para simular los cuadritos */
+    letter-spacing: 10px; /* Espacio entre cuadritos */
+    animation: blink 0.5s infinite alternate; /* Animación de parpadeo */
+}
+
+@keyframes blink {
+    from {
+        opacity: 1; /* Visible */
+    }
+    to {
+        opacity: 0.1; /* Semi-transparente */
+    }
+}
+
+
   </style>
    
 </head>
 <body>
   <div class="container-full-height">
     <div class="sidebar">
-        <h1>HOLA</h1>
+         <h1>Hola, {{ nombre }} {{ apellido }}!</h1>
+        <!--Fecha y hora-->
+        <div id="current-datetime"></div>
+
         <!-- Botón para capturar rostros -->
         
       <!-- Botón para ENTRENAR -->
@@ -82,12 +114,24 @@
       
   
   <!-- jQuery y Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
   <!-- Tu script personalizado -->
   <script>
-    // Agrega tu script personalizado aquí
+    $(document).ready(function() {
+        console.log('El documento está listo');
+        function updateDateTime() {
+            var now = moment().format('YYYY-MM-DD HH:mm:ss');
+            console.log('Fecha y hora actual: ' + now);
+            $('#current-datetime').text(now);
+        }
+
+        // Actualiza la fecha y hora cada segundo
+        setInterval(updateDateTime, 1000);
+    });
   </script>
 </body>
 </html>

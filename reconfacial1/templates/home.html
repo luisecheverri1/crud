@@ -1,5 +1,5 @@
 
- <!-- home.html -->
+<!-- home.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -52,12 +52,45 @@
             position: absolute; /* Posicionamiento absoluto para el footer */
             bottom: 0; /* Colocar el footer al final de la pantalla */
         }
+        
+        #current-datetime {
+    font-size: 40px;
+    color: red; /* Hace el texto transparente */
+    font-family: 'Courier New', monospace; /* Fuente monoespaciada para alinear los cuadritos */
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #000; /* Fondo negro */
+    text-align: center;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); /* Sombra de caja */
+    overflow: hidden; /* Oculta el contenido que excede el tamaño del contenedor */
+}
+
+#current-datetime::before {
+    content: '█'; /* Utiliza el carácter cuadrado lleno para simular los cuadritos */
+    letter-spacing: 10px; /* Espacio entre cuadritos */
+    animation: blink 0.5s infinite alternate; /* Animación de parpadeo */
+}
+
+@keyframes blink {
+    from {
+        opacity: 1; /* Visible */
+    }
+    to {
+        opacity: 0.1; /* Semi-transparente */
+    }
+}
+
+
     </style>
 </head>
 <body>
     <div class="container-full-height">
         <div class="sidebar">
             <h1>BIOMETRIKASS</h1>
+            <!--Fecha y hora-->
+            <div id="current-datetime"></div>
+
+
             <!-- Botón para RECONOCER rostros -->
             <form method="post" action="{% url 'reconfacial1:reconocerhtml' %}">
                 {% csrf_token %}
@@ -69,39 +102,39 @@
 
             <!-- Formulario de administrador oculto -->
             <div id="admin-form" style="display: none;">
-                <!-- Aquí van tus acciones CRUD -->
+                <h2>Panel de administrador</h2>
+                <!--  CRUD -->
+                
+                <!-- Botón para crear_persona -->
+                <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary mb-3">Crear Persona</button>
+                </form>
 
-            <!-- Botón para crear_persona -->
-            <form method="post" action="{% url 'reconfacial1:capturar_rostros' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary mb-3">Crear Persona</button>
-            </form>
+                <!-- Botón para leer_persona -->
+                <form method="post" action="{% url 'reconfacial1:home' %}">
+                    {% csrf_token %}
+                    <input type="number" name="cedula" placeholder="Ingrese la cedula de la persona">
+                    <button type="submit" class="btn btn-primary mb-3">Leer Persona</button>
+                </form>
 
-            <!-- Botón para leer_persona -->
-            <form method="post" action="{% url 'reconfacial1:home' %}">
-                {% csrf_token %}
-                <input type="number" name="cedula" placeholder="Ingrese la cedula de la persona">
-                <button type="submit" class="btn btn-primary mb-3">Leer Persona</button>
-            </form>
+                <!-- Botón para actualizar_persona -->
+                <form method="post" action="{% url 'reconfacial1:home' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="actualizar_persona">
+                    <input type="number" name="cedula" placeholder="Ingrese la cedula de la persona">
+                    <button type="submit" class="btn btn-primary mb-3">Actualizar Persona</button>
+                </form>
 
-            <!-- Botón para actualizar_persona -->
-            <form method="post" action="{% url 'reconfacial1:home' %}">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="actualizar_persona">
-                <input type="number" name="cedula" placeholder="Ingrese la cedula de la persona">
-                <button type="submit" class="btn btn-primary mb-3">Actualizar Persona</button>
-            </form>
-
-                    <!-- Botón para eliminar_persona -->
-            <form method="post" action="{% url 'reconfacial1:home' %}">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="eliminar_persona">
-                <input type="number" name="cedula" placeholder="Ingrese la cedula de la persona">
-                <button type="submit" class="btn btn-primary mb-3">Eliminar Persona</button>
-            </form>
-
+                <!-- Botón para eliminar_persona -->
+                <form method="post" action="{% url 'reconfacial1:home' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="eliminar_persona">
+                    <input type="number" name="cedula" placeholder="Ingrese la cedula de la persona">
+                    <button type="submit" class="btn btn-primary mb-3">Eliminar Persona</button>
+                </form>
             </div>
-
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
             <script>
                 document.getElementById('admin-button').addEventListener('click', function() {
                     var password = prompt('Por favor, introduce la contraseña de administrador:');
@@ -123,12 +156,22 @@
         </div>
     </footer>
     <!-- jQuery y Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Tu script personalizado -->
     <script>
-     
+        $(document).ready(function() {
+            console.log('El documento está listo');
+            function updateDateTime() {
+                var now = moment().format('YYYY-MM-DD HH:mm:ss');
+                console.log('Fecha y hora actual: ' + now);
+                $('#current-datetime').text(now);
+            }
+    
+            // Actualiza la fecha y hora cada segundo
+            setInterval(updateDateTime, 1000);
+        });
     </script>
 </body>
 </html>

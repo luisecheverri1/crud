@@ -2,6 +2,7 @@
 # Standard library imports
 from concurrent.futures import ThreadPoolExecutor
 import json
+from multiprocessing import context
 import threading
 from urllib import request
 from urllib.parse import quote
@@ -174,30 +175,18 @@ def reconociendo(request):
             nombre = data['nombre']
             apellido = data['apellido']
 
+            if nombre and apellido:
+                return redirect('reconfacial1:bienvenido', nombre=nombre, apellido=apellido)
+
         else:
             nombre, apellido = None, None  # Si no se está realizando el reconocimiento facial, establece `nombre` y `apellido` en None
 
-        context = {
-            'nombre': nombre,
-            'apellido': apellido,
-        }
+        return render(request, 'reconociendo.html', nombre, apellido)
 
-        return render(request, 'reconociendo.html', context)
-
-
-
-def checking(request):
-    if ReconocimientoFacial.objects.filter(estado=True).exists():
-        # Si el reconocimiento facial ha terminado, redirige al usuario a la vista 'bienvenido'
-        persona = ReconocimientoFacial.objects.filter(estado=True).first().persona
-        ReconocimientoFacial.objects.all().delete()  # Elimina todos los objetos de ReconocimientoFacial
-        return redirect('reconfacial1:bienvenido', nombre=persona.nombre, apellido=persona.apellido)
-    # Si el reconocimiento facial aún no ha terminado, renderiza la plantilla 'checking.html'
-    return render(request, 'checking.html')
 
 def bienvenido(request, nombre, apellido):
     persona = Persona.objects.filter(nombre=nombre, apellido=apellido).first()
-    return render(request, 'bienvenido.html', {'persona': persona})
+    return render(request, 'bienvenido.html', {'nombre': nombre, 'apellido': apellido})
 
 
 def persona_list(request):
