@@ -1,5 +1,8 @@
 
 # Standard library imports
+from concurrent.futures import ThreadPoolExecutor
+import json
+import threading
 from urllib import request
 from urllib.parse import quote
 import os
@@ -13,9 +16,10 @@ from django.urls import reverse
 from .capturandoRostros import capturar_rostros3
 from .entrenando import entrenando
 from .reconocimientoFacial import reconocer_rostros
-from .models import Persona
+from .models import Persona, ReconocimientoFacial
 from .forms import PersonaForm
 from django.db import IntegrityError
+import time
 
 # Constants
 DATA_PATH = 'C:/xampp/htdocs/crud/biometrikAssProject/data'
@@ -148,6 +152,12 @@ def entrenandoRF_exitoso(request, cedula, nombre, apellido, photo_path, person_f
                                                           'photo_path': photo_path, 'person_folder_path': person_folder_path, 'count': count})
 
 
+
+
+from concurrent.futures import ThreadPoolExecutor
+
+executor = ThreadPoolExecutor(max_workers=1)
+
 def reconocerhtml(request):
     return render(request, 'reconoceRostros.html')
 
@@ -155,13 +165,40 @@ def reconociendo(request):
     if request.method == 'POST':
         action = request.POST.get('action')
         if action == 'reconocer_rostros':
-            # Renderizar la plantilla 'reconociendo.html' inmediatamente
-            response = render(request, 'reconociendo.html')
-            reconocer_rostros(request)
-            return response
-    return render(request, 'reconociendo.html') 
+            future = executor.submit(reconocer_rostros, request)
+            response = future.result()  # Asume que la función `reconocer_rostros` devuelve una respuesta JSON
+
+            # Convertir la respuesta JSON en un diccionario
+            data = json.loads(response.content)
             
-    
+            nombre = data['nombre']
+            apellido = data['apellido']
+
+        else:
+            nombre, apellido = None, None  # Si no se está realizando el reconocimiento facial, establece `nombre` y `apellido` en None
+
+        context = {
+            'nombre': nombre,
+            'apellido': apellido,
+        }
+
+        return render(request, 'reconociendo.html', context)
+
+
+
+def checking(request):
+    if ReconocimientoFacial.objects.filter(estado=True).exists():
+        # Si el reconocimiento facial ha terminado, redirige al usuario a la vista 'bienvenido'
+        persona = ReconocimientoFacial.objects.filter(estado=True).first().persona
+        ReconocimientoFacial.objects.all().delete()  # Elimina todos los objetos de ReconocimientoFacial
+        return redirect('reconfacial1:bienvenido', nombre=persona.nombre, apellido=persona.apellido)
+    # Si el reconocimiento facial aún no ha terminado, renderiza la plantilla 'checking.html'
+    return render(request, 'checking.html')
+
+def bienvenido(request, nombre, apellido):
+    persona = Persona.objects.filter(nombre=nombre, apellido=apellido).first()
+    return render(request, 'bienvenido.html', {'persona': persona})
+
 
 def persona_list(request):
     personas = Persona.objects.all()

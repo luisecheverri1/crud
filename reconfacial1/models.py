@@ -24,3 +24,10 @@ class Asistencia(models.Model):
 
     def __str__(self):
         return f"{self.persona} - {self.fecha}"
+    
+class ReconocimientoFacial(models.Model):
+    estado = models.BooleanField(default=False)  
+    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.persona} - {self.estado}"
