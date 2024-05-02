@@ -25,6 +25,9 @@ from reconfacial1 import views
 app_name = 'reconfacial1'
 
 urlpatterns = [
+
+    
+
     # Home page
     path('', views.home, name='home'),
 
@@ -69,6 +72,5 @@ urlpatterns = [
     #Bienvenido
     path('bienvenido/<str:nombre>/<str:apellido>/', views.bienvenido, name='bienvenido'),
 
-    # Login
-     path('login/', MyLoginView.as_view(), name='login'),
+   
 ]

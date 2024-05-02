@@ -107,7 +107,7 @@
                 <button type="submit" class="btn btn-primary mb-3">Personal</button>
             </form>
 
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user.is_superuser %}
             <!-- Botón de administrador -->
             <button id="admin-button" class="btn btn-danger mb-3">Administrador</button>
 
@@ -148,16 +148,7 @@
             {% endif %}
             
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-            <script>
-                document.getElementById('admin-button').addEventListener('click', function() {
-                    var password = prompt('Por favor, introduce la contraseña de administrador:');
-                    if (password === '040770') { // Reemplaza 'tu-contraseña' con la contraseña real
-                        document.getElementById('admin-form').style.display = 'block';
-                    } else {
-                        alert('Contraseña incorrecta.');
-                    }
-                });
-            </script>
+           
         </div>
         <div class="main-content">
             <img src="https://images.squarespace-cdn.com/content/v1/60b652484796a564a5707096/c3d60914-0627-4f39-9300-a5becec3fb57/reconocimiento-facial.jpg" alt="Reconocimiento facial" class="img-fluid">
@@ -186,5 +177,21 @@
             setInterval(updateDateTime, 1000);
         });
     </script>
+    <script>
+    $(document).ready(function() {
+        // ...
+        // Tu código existente
+        // ...
+    
+        // Agrega un evento de clic al botón de administrador
+        $('#admin-button').click(function() {
+            // Muestra u oculta los botones internos
+            $('#admin-form').toggle();
+        });
+    });
+    </script>
+
+
+
 </body>
 </html>

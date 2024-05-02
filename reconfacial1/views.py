@@ -13,6 +13,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.views import LoginView
+from django.views import View
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 # Local application imports
 from .capturandoRostros import capturar_rostros3
@@ -232,3 +235,21 @@ def eliminar_persona(request, cedula):
 
 class MyLoginView(LoginView):
     template_name = 'home.html'
+
+
+class ProfileView(View):
+    def get(self, request):
+        # Aquí va tu lógica para la vista
+        return render(request, 'home.html')   
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')  # Redirige a la página de inicio.
+        else:
+            messages.error(request, 'Usuario o contraseña incorrectos')  # Devuelve un mensaje de error.
+    return render(request, 'login.html')  # Muestra el formulario de inicio de sesión.
