@@ -1,11 +1,10 @@
-
-<!-- home.html -->
+<!-- admin.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOME HTML</title>
+    <title>ADMIN HTML</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Tu estilo personalizado -->
@@ -90,7 +89,7 @@
 <body>
     <div class="container-full-height">
         <div class="sidebar">
-            <h1>BIOMETRIKASS</h1>
+            <h1>BIOMETRIKASS ADMIN</h1>
             <!--Fecha y hora-->
             <div id="current-datetime"></div>
 
@@ -109,7 +108,7 @@
 
             {% if user.is_authenticated and user.is_superuser %}
             <!-- Botón de administrador -->
-            <!--button id="admin-button" class="btn btn-danger mb-3">Administrador</button-->
+            <button id="admin-button" class="btn btn-danger mb-3">Administrador</button>
 
             <!-- Formulario de administrador oculto -->
             <div id="admin-form" style="display: none;">

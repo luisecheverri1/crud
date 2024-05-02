@@ -16,6 +16,7 @@ from django.contrib.auth.views import LoginView
 from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Local application imports
 from .capturandoRostros import capturar_rostros3
@@ -249,7 +250,11 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('home')  # Redirige a la página de inicio.
+            return redirect('reconfacial1:administrador')  # Redirige a la página de admin.
         else:
             messages.error(request, 'Usuario o contraseña incorrectos')  # Devuelve un mensaje de error.
     return render(request, 'login.html')  # Muestra el formulario de inicio de sesión.
+
+@login_required
+def admin_view(request):
+    return render(request, 'admin.html')
