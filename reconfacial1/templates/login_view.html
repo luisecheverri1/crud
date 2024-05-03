@@ -1,11 +1,10 @@
-
-<!-- home.html -->
+<!-- Login.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOME HTML</title>
+    <title>Login</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Tu estilo personalizado -->
@@ -95,12 +94,12 @@
             <div id="current-datetime"></div>
 
             <!-- Formulario de inicio de sesión -->
-            <form method="post" action="{% url 'reconfacial1:login_view' %}">
+            <form method="post" action="{% url 'login_view' %}">
                 {% csrf_token %}
-                <!--{{ form.as_p }}-->
-                <button type="submit" class="btn btn-primary mb-3">Login</button>
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit" class="btn btn-primary mb-3">Submit</button>
             </form>
-
             <!-- Botón para RECONOCER rostros -->
             <form method="post" action="{% url 'reconfacial1:reconocerhtml' %}">
                 {% csrf_token %}

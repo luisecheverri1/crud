@@ -17,7 +17,7 @@ Including another URLconf
 # Standard library imports
 from django.contrib import admin
 from django.urls import path, re_path
-from .views import MyLoginView, admin_view, login_view
+
 
 # Local application imports
 from reconfacial1 import views
@@ -72,4 +72,9 @@ urlpatterns = [
     #Bienvenido
     path('bienvenido/<str:nombre>/<str:apellido>/', views.bienvenido, name='bienvenido'),
 
+    # Login
+    path('login_view/',views.login_view, name='login_view'),
+    
+    # administrador
+    path('administrador/', views.admin_view, name='administrador'),
 ]

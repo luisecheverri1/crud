@@ -245,15 +245,15 @@ class ProfileView(View):
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('reconfacial1:administrador')  # Redirige a la página de admin.
+            return redirect('reconfacial1:administrador')
         else:
-            messages.error(request, 'Usuario o contraseña incorrectos')  # Devuelve un mensaje de error.
-    return render(request, 'login.html')  # Muestra el formulario de inicio de sesión.
+            messages.error(request, 'Usuario o contraseña incorrectos')
+    return render(request, 'login_view.html')
 
 @login_required
 def admin_view(request):

@@ -93,12 +93,7 @@
             <!--Fecha y hora-->
             <div id="current-datetime"></div>
 
-            <!-- Formulario de inicio de sesión -->
-            <form method="post" action="{% url 'login' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary mb-3">Iniciar sesión</button>
-            </form>
+          
 
             <!-- Botón para RECONOCER rostros -->
             <form method="post" action="{% url 'reconfacial1:reconocerhtml' %}">
