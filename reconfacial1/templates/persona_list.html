@@ -1,11 +1,15 @@
 {% extends "base_generic.html" %}
 
+{% block title %}
+  PERSONA_LIST.HTML
+{% endblock %}
+
 {% block content %}
   <h2>Personas</h2>
   <ul>
     {% for persona in personas %}
       <li>
-        <a href="{% url 'reconfacial1:leer_persona' cedula=persona.cedula %}">{{ persona.nombre }} {{ persona.apellido }}</a>
+        <a href="{% url 'reconfacial1:leer_persona' cedula=persona.cedula %}">{{ persona.nombre }} {{ persona.apellido }} CEDULA : {{persona.cedula}}</a>
       </li>
     {% empty %}
       <li>No hay personas registradas.</li>

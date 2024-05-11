@@ -1,5 +1,10 @@
 {% extends "base_generic.html" %}
 
+
+{% block title %}
+PERSONA_DETAIL.HTML
+{% endblock %}
+
 {% block content %}
   <h2>{{ persona.nombre }} {{ persona.apellido }}</h2>
   <p>Cédula: {{ persona.cedula }}</p>

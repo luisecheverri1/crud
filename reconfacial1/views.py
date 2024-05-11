@@ -17,6 +17,9 @@ from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import IntegrityError
+
 
 # Local application imports
 from .capturandoRostros import capturar_rostros3
@@ -24,7 +27,7 @@ from .entrenando import entrenando
 from .reconocimientoFacial import reconocer_rostros
 from .models import Persona, ReconocimientoFacial
 from .forms import PersonaForm
-from django.db import IntegrityError
+
 import time
 
 # Constants
@@ -43,41 +46,36 @@ def home(request):
 def capturar_rostros(request):
     """Handle the form for capturing faces."""
     if request.method == 'POST':
-        form = PersonaForm(request.POST)
+        form = PersonaForm(request.POST, request.FILES)
         if form.is_valid():
-            try:
-                form.save()
-            except IntegrityError:
-                form.add_error('cedula', 'La persona con la CEDULA introducida, YA EXISTE en la base de datos.')
-
-            data_path = "C:/xampp/htdocs/crud-1/biometrikAssProject/data"
             cedula = form.cleaned_data['cedula']
-            nombre = form.cleaned_data['nombre']
-            apellido = form.cleaned_data['apellido']
-            count = 0
-            photo_path = ""
-            person_folder_path = ""
-            os.makedirs(data_path, exist_ok=True)
-            
-            # Call the 'capturar_rostros3' function
-            cedula, nombre, apellido, photo_path, person_folder_path, count = capturar_rostros3(
-                cedula, nombre, apellido, photo_path, person_folder_path, count)
+            if Persona.objects.filter(cedula=cedula).exists():
+                form.add_error('cedula', 'La persona con la CEDULA introducida, YA EXISTE en la base de datos.')
+            else:
+                persona = form.save(commit=False)
 
-            # Print the variables before the redirection
-            print(f"cedula: {cedula}")
-            print(f"nombre: {nombre}")
-            print(f"apellido: {apellido}")
-            print(f"photo_path: {photo_path}")
-            print(f"person_folder_path: {person_folder_path}")
-            print(f"count: {count}")
+                # Call the 'capturar_rostros3' function
+                cedula, nombre, apellido, photo_path, person_folder_path, count = capturar_rostros3(
+                    persona.cedula, persona.nombre, persona.apellido, persona.photo_path, persona.person_folder_path, persona.count)
 
-            return redirect('reconfacial1:capturar_rostros_exitoso', cedula=cedula, nombre=nombre, apellido=apellido,
-                            photo_path=photo_path, person_folder_path=person_folder_path, count=count )
+                # Save the photo path in the database
+                persona.photo_path = photo_path
+                persona.save()
+
+                # Print the variables before the redirection
+                print(f"cedula: {cedula}")
+                print(f"nombre: {nombre}")
+                print(f"apellido: {apellido}")
+                print(f"photo_path: {photo_path}")
+                print(f"person_folder_path: {person_folder_path}")
+                print(f"count: {count}")
+
+                return redirect('reconfacial1:capturar_rostros_exitoso', cedula=cedula, nombre=nombre, apellido=apellido,
+                                photo_path=photo_path, person_folder_path=person_folder_path, count=count )
     else:
         form = PersonaForm()
 
     return render(request, 'capturaRostros.html', {'form': form})
-
 
 def capturar_rostros_exitoso(request, cedula, nombre, apellido, photo_path, person_folder_path, count):
     """Handle the form after capturing faces."""
@@ -186,7 +184,7 @@ def reconociendo(request):
         else:
             nombre, apellido = None, None  # Si no se está realizando el reconocimiento facial, establece `nombre` y `apellido` en None
 
-        return render(request, 'reconociendo.html', nombre, apellido)
+        return render(request, 'reconociendo.html', {'nombre': nombre, 'apellido': apellido})
 
 
 def bienvenido(request, nombre, apellido):
@@ -198,38 +196,50 @@ def persona_list(request):
     personas = Persona.objects.all()
     return render(request, 'persona_list.html', {'personas': personas})
 
-def persona_new(request):
-    if request.method == "POST":
-        form = PersonaForm(request.POST)
-        if form.is_valid():
-            persona = form.save()
-            return redirect('persona_detail', pk=persona.pk)
-    else:
-        form = PersonaForm()
-    return render(request, 'persona_edit.html', {'form': form})
+
 
 # Read
 def leer_persona(request, cedula):
-    persona = get_object_or_404(Persona, cedula=cedula)
+    try:
+        persona = Persona.objects.get(cedula=cedula)
+    except ObjectDoesNotExist:
+        messages.error(request, 'La persona con la CEDULA introducida, NO EXISTE en la base de datos.')
+        return redirect('reconfacial1:persona_list')
     return render(request, 'persona_detail.html', {'persona': persona})
 
 # Update
 def actualizar_persona(request, cedula):
-    cedula = request.GET.get('cedula')
-    #persona = get_object_or_404(Persona, cedula=cedula)
+    try:
+        persona = Persona.objects.get(cedula=cedula)
+    except ObjectDoesNotExist:
+        messages.error(request, 'La persona con la CEDULA introducida, NO EXISTE en la base de datos.')
+        return redirect('reconfacial1:persona_list')
     if request.method == "POST":
         form = PersonaForm(request.POST, instance=persona)
         if form.is_valid():
-            persona = form.save()
-            return redirect('leer_persona', cedula=persona.cedula)
+            # Guarda los datos del formulario en la instancia de Persona y sobrescribe los valores existentes
+            persona = form.save(commit=False)
+            # Puedes hacer cualquier modificación adicional aquí antes de guardar la instancia de Persona
+            persona.save()
+            return redirect('reconfacial1:leer_persona', cedula=persona.cedula)
     else:
         form = PersonaForm(instance=persona)
     return render(request, 'persona_edit.html', {'form': form})
+
 
 # Delete
 def eliminar_persona(request, cedula):
     persona = get_object_or_404(Persona, cedula=cedula)
     if request.method == 'POST':
+        # Construye la ruta al archivo
+        file_path = os.path.join('C:', 'xampp', 'data', 'crud1', f'{persona.cedula}.jpg')  # Asegúrate de que esta ruta sea correcta
+
+        # Verifica que el archivo exista antes de intentar eliminarlo
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+        else:
+            print(f"Error: {file_path} file not found")
+
         persona.delete()
         return redirect('reconfacial1:persona_list')
     return render(request, 'persona_confirm_delete.html', {'persona': persona})
